@@ -4,3 +4,9 @@
 *.jar
 *.war
 *.ear
+SRD/data/*
+SRD/bin/*
+.project
+.classpath
+.settings
+.metadata
