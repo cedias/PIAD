@@ -2,7 +2,14 @@ package mains;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
 import bases.BaseFactory;
 import bases.RamBase;
 import models.*;
@@ -19,28 +26,15 @@ public class DataLoad {
 	public static void main(String[] args) throws IOException, NoSuchAlgorithmException {
 
 
-		RamBase b = (RamBase) BaseFactory.createRamBase(new HashSet<ReviewSmall>(),5);
+		RamBase b = (RamBase) BaseFactory.createRamBase(8);
 		long startTime = System.nanoTime();
 		R2M.reviews2Model("data/testReviewsStripped.txt", b);
 		long endTime = System.nanoTime();
 
 		long duration = endTime - startTime;
 
-		System.out.println("data in base:"+ b.size()+" read in: "+duration);
-/*
-		 HashSet<ReviewSmall> base = (HashSet<ReviewSmall>) b.getBase();
+		System.out.println("data in base:"+ b.size()+" read in: "+duration*Math.pow(10, -9)+" sec");
 
-
-
-		for(ReviewSmall r : base){
-			for(ReviewSmall r2 : base){
-				if(r.equals(r2) && r.getId()!=r2.getId()){
-					System.out.println("duplicate: "+r.getId()+" = "+r2.getId());
-				}
-			}
-		}
-
-*/
 
 
 
