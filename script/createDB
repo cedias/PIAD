@@ -1,10 +1,15 @@
 #!/usr/bin/python
 from __future__ import print_function
-
+import sys
 import mysql.connector
 from mysql.connector import errorcode
 
-DB_NAME = 'employees'
+if(len(sys.argv) != 4):
+	print("Arguments error, USAGE: ./createDB <database> <user> <password>")
+	exit(1)
+
+
+DB_NAME = sys.argv[1]
 
 TABLES = {}
 TABLES['reviews'] = (
@@ -12,22 +17,22 @@ TABLES['reviews'] = (
 CREATE TABLE IF NOT EXISTS reviews
 (
 review_id INT not null AUTO_INCREMENT,
-user_id VARCHAR(10),
+user_id VARCHAR(20),
 product_id VARCHAR(20),
 score FLOAT(2),
-time TIMESTAMP,
+time DATE,
 helpfullness INT,
 nb_helpfullness INT,
 summary VARCHAR(255),
-text TEXT,
-is_duplicate BOOLEAN,
-duplicate_id INT,
+text LONGTEXT,
+is_exact_duplicate BOOLEAN,
+exact_duplicate_id INT,
 PRIMARY KEY(review_id)
 )
 ;
 ''')
 
-cnx = mysql.connector.connect(user='amazon')
+cnx = mysql.connector.connect(user=sys.argv[2],password=sys.argv[3])
 cursor = cnx.cursor()
 
 def create_database(cursor):
