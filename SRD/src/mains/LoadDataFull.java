@@ -15,13 +15,14 @@ public class LoadDataFull {
 
 	/**
 	 * @param args
-	 * @throws SQLException 
-	 * @throws ClassNotFoundException 
-	 * @throws NumberFormatException 
-	 * @throws FileNotFoundException 
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 * @throws NumberFormatException
+	 * @throws FileNotFoundException
 	 */
 	public static void main(String[] args) throws NumberFormatException, ClassNotFoundException, SQLException, FileNotFoundException {
-		
+
+		Long start = System.currentTimeMillis();
 		Scanner sc = new Scanner(new File("data/Office_Products.txt"));
 		HashMap<String,Integer> reviews = new HashMap<String,Integer>();
 		String line = "";
@@ -61,7 +62,7 @@ public class LoadDataFull {
 				 *data[8]: Review summary
 				 *data[9]: Review text
 				 */
-				
+
 				if(reviews.containsKey(data[9]))
 				{
 					dupes++;
@@ -71,9 +72,9 @@ public class LoadDataFull {
 				{
 					reviews.put(data[9], id);
 					idDupe=0;
-					
+
 				}
-				
+
 				help = data[5].split("/");
 				ReviewSQL.insertReviewBatchExactDupe(
 						st,
@@ -87,22 +88,29 @@ public class LoadDataFull {
 						data[9],
 						idDupe
 						);
-				
+
 				if(sc.hasNextLine()){
 					sc.nextLine();
 					i=0;
 					id++;
 				}
 			}
-			
+			try{
 			if(id%1000==0){
 				st.executeBatch();
 			}
-			
+			}catch(Exception e)
+			{
+				System.out.println(e.getMessage());
+				throw e;
+			}
+
 		}
 		conn.commit();
 		sc.close();
 		System.out.println(dupes +" exact duplicates on "+id +" reviews");
+		Long end = System.currentTimeMillis();
+		System.out.println(id +" reviews loaded in "+ (end-start)/1000 + " seconds");
 
 	}
 

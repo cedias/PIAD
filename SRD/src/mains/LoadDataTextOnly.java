@@ -9,19 +9,17 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.logging.Logger;
+
 
 import database.DB;
 import database.ReviewSQL;
 
 public class LoadDataTextOnly {
 
-	
+
 	public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException {
-		
+
 		Long start = System.currentTimeMillis();
 		String filename = "OPStripped";
 		HashMap<String,Integer> reviews = new HashMap<String,Integer>();
@@ -34,10 +32,10 @@ public class LoadDataTextOnly {
 		Connection conn = DB.getConnection();
 		conn.setAutoCommit(false);
 		PreparedStatement st = ReviewSQL.getInsertReviewStatement(conn);
-		
+
 		while((line=br.readLine())!=null){
 			data = line.split("review/text: ");
-			
+
 			if(reviews.containsKey(data[1]))
 			{
 				dupes++;
@@ -49,10 +47,10 @@ public class LoadDataTextOnly {
 				bw.write(id +":->:"+ data[1]);
 				bw.newLine();
 				ReviewSQL.insertReviewBatchExactDupe(st,data[1], 0 );
-				
+
 			}
 			id++;
-			
+
 			if(id%1000==0){
 				st.executeBatch();
 				System.out.println(id);
@@ -64,12 +62,12 @@ public class LoadDataTextOnly {
 		conn.close();
 		br.close();
 		bw.close();
-		
+
 		Long end = System.currentTimeMillis();
 		System.out.println(dupes +" exact duplicates on "+(id-1) +" reviews loaded in "+ (end-start)/1000 + " seconds");
-		
-		
-		
+
+
+
 
 	}
 

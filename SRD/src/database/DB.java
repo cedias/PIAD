@@ -11,5 +11,5 @@ public class DB {
 		Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/amazon", "amazon", "amazon");
 		return connection;
 	}
-	
+
 }

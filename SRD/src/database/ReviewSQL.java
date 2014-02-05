@@ -17,7 +17,7 @@ public class ReviewSQL {
 		 * 4:	time
 		 * 5:	helpfullness
 		 * 6:	nb_helpfullness
-		 * 7:	summary 
+		 * 7:	summary
 		 * 8:	text
 		 * 9:	exact_duplicate_id
 		 * 10:	near_duplicate_id
@@ -25,16 +25,16 @@ public class ReviewSQL {
 		String sql ="INSERT INTO `amazon`.`reviews` "
 				+"(`review_id`, `user_id`, `product_id`, `score`, `time`, `helpfullness`, `nb_helpfullness`, `summary`, `text`, `exact_duplicate_id`,`near_duplicate_id`)"
 				+"VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
-	
-			
+
+
 			PreparedStatement st = c.prepareStatement(sql);
 			return st;
 	}
 
-	
+
 	public static void insertReviewBatchExactDupe(PreparedStatement st, String uid, String pid, float score, String time, int help
 				,int nbHelp, String summary, String text, int dupeId) throws ClassNotFoundException, SQLException{
-	
+
 			st.setString(1, uid);
 			st.setString(2, pid);
 			st.setFloat(3, score);
@@ -44,18 +44,18 @@ public class ReviewSQL {
 			st.setString(7,summary);
 			st.setString(8,text);
 			st.setNull(10, Types.INTEGER);
-			
+
 			if(dupeId!=0)
 				st.setInt(9,dupeId);
 			else
 				st.setNull(9, Types.INTEGER);
-			
-			
+
+
 			st.addBatch();
-			
+
 	}
-	
-		
+
+
 
 	public static void insertReviewBatchExactDupe(PreparedStatement st,String text, int dupeId) throws SQLException, ClassNotFoundException{
 		st.setNull(1, Types.INTEGER);
@@ -67,15 +67,15 @@ public class ReviewSQL {
 		st.setNull(7, Types.BLOB);
 		st.setString(8,text);
 		st.setNull(10, Types.INTEGER);
-		
+
 		if(dupeId!=0)
 			st.setInt(9,dupeId);
 		else
 			st.setNull(9, Types.INTEGER);
-		
+
 		st.addBatch();
 	}
-	
+
 	public static void insertReviewBatchNearDupe(PreparedStatement st, String uid, String pid, float score, String time, int help
 			,int nbHelp, String summary, String text, int dupeId) throws ClassNotFoundException, SQLException{
 
@@ -88,17 +88,17 @@ public class ReviewSQL {
 		st.setString(7,summary);
 		st.setString(8,text);
 		st.setNull(9, Types.INTEGER);
-		
+
 		if(dupeId!=0)
 			st.setInt(10,dupeId);
 		else
 			st.setNull(10, Types.INTEGER);
 
 		st.addBatch();
-		
+
 }
 
-	
+
 
 public static void insertReviewBatchNearDupe(PreparedStatement st,String text, int dupeId) throws SQLException, ClassNotFoundException{
 	st.setNull(1, Types.INTEGER);
@@ -110,12 +110,12 @@ public static void insertReviewBatchNearDupe(PreparedStatement st,String text, i
 	st.setNull(7, Types.BLOB);
 	st.setString(8,text);
 	st.setNull(9, Types.INTEGER);
-	
+
 	if(dupeId!=0)
 		st.setInt(10,dupeId);
 	else
 		st.setNull(10, Types.INTEGER);
-	
+
 	st.addBatch();
 }
 
