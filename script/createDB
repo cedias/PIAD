@@ -17,7 +17,7 @@ TABLES['reviews'] = (
 CREATE TABLE IF NOT EXISTS reviews
 (
 review_id INT not null AUTO_INCREMENT,
-user_id VARCHAR(20),
+user_id VARCHAR(25),
 product_id VARCHAR(20),
 score FLOAT(2),
 time DATE,
@@ -25,8 +25,8 @@ helpfullness INT,
 nb_helpfullness INT,
 summary VARCHAR(255),
 text LONGTEXT,
-is_exact_duplicate BOOLEAN,
 exact_duplicate_id INT,
+near_duplicate_id INT,
 PRIMARY KEY(review_id)
 )
 ;
