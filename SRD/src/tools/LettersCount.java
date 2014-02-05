@@ -9,11 +9,14 @@ public class LettersCount  {
 	int size;
 	static boolean singleLetters=false;
 
+	public static void setSingleLetters(final boolean b){
+		singleLetters = b;
+	}
 
 	public LettersCount(HashMap<String, Integer> lexique) {
 		this.size = lexique.size();
 		this.lexique = lexique;
-		this.letters = new HashMap<Integer,Integer>(size/16);
+		this.letters = new HashMap<Integer,Integer>(82);
 	}
 
 	public int add(String s){
@@ -50,11 +53,12 @@ public class LettersCount  {
 		double res=0;
 		double normA=0;
 		double normB=0;
-		int a;
-		int b;
+		double ta;
+		double tb;
+		int a=0;
+		int b=0;
 
-
-		for(int i=0;i<size;i++){
+		for(int i:letters.keySet()){
 			a = this.get(i);
 			b = lc.get(i);
 			res+=(a*b);
@@ -62,8 +66,17 @@ public class LettersCount  {
 			normB+=(b*b);
 		}
 
+		ta = normA;
+		tb = normB;
 		normA = Math.sqrt(normA);
 		normB = Math.sqrt(normB);
+
+		System.out.println(res);
+		System.out.println(normA);
+		System.out.println(normB);
+		System.out.println(res/(Math.sqrt(ta)*Math.sqrt(tb)));
+
+
 		res = res/(normA*normB);
 
 		return res;

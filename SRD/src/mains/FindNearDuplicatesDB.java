@@ -1,18 +1,11 @@
 package mains;
 
-import java.io.BufferedReader;
-
-import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
-
 import java.sql.SQLException;
-
 import java.util.HashMap;
-
-
 import threads.NearDupesDBThread;
-
+import tools.LettersCount;
 import tools.Tools;
 
 import database.DB;
@@ -28,32 +21,34 @@ public class FindNearDuplicatesDB {
 	 */
 	public static void main(String[] args) throws ClassNotFoundException, SQLException, IOException, InterruptedException {
 		HashMap<String,Integer> lexique = new HashMap<String,Integer>();
+
 		Connection conn1 = DB.getConnection();
 		Connection conn2 = DB.getConnection();
 		Connection conn3 = DB.getConnection();
 		Connection conn4 = DB.getConnection();
-		/*
-		Connection conn5 = DB.getConnection();
-		Connection conn6 = DB.getConnection();
-		Connection conn7 = DB.getConnection();
-		Connection conn8 = DB.getConnection();
-		Connection conn9 = DB.getConnection();
-		Connection conn10 = DB.getConnection();
-		 */
 
 
-		BufferedReader br = new BufferedReader(new FileReader("output/OPStripped_WED.txt"));
-		String line;
-		String data[];
+		Tools.populateLexicon("output/OPStripped_WED.txt", lexique, 1);
 
-		/*creates lexicon*/
-		while((line=br.readLine())!=null){
-			data = line.split(":->:");
-			line = Tools.normalize(data[1]);
-			Tools.toHashShingles(line, 1, lexique);
+		String s1="i have had this system for two years and have also experienced what some may call quirks in its operation several reviewers have stated what i believe to be reasonable explanations for the difficulties others have experienced it is important for people to keep in mind that with any multi function compact electronic device there are times when a strict adherence to defined procedures will be required for the unit to carry out a desired function this is not your father s desk phone i have had to refer to the manual on several occassions and found it helpful and easy to use on one occassion it was necessary for me to use customer sevice to re register the system and their instructions were very clear in solving the problem which has not recurred i can tell you that compared to re formatting a hard drive and reloading operating systems and software that process was like brushing my teeth in short i am very pleased with the system it has fully met my expectations and i would recommend it to anyone who is comfortable with electronics";
+		String s2="i bought this case about 3 years ago when i graduated with my m arch degree i keep it in a small pocket inside my purse which is rather protected and over time it has deteriorated the pin that is in the hinge constantly slips out and i have to push it back in i find it difficult to open with such a small tab and the clear cover acrylic has cracked in several places i find it quite awkward to hand out cards at a moment s notice because i have to turn it just right in order to get a good grip to open it nice idea but i ll be sticking to something that lasts a bit longer and is easier and quicker to open let your business card tell people what you do not your case";
+		String[] splitted = s1.split(" ");
+
+		LettersCount lc1 = new LettersCount(lexique);
+		LettersCount lc2 = new LettersCount(lexique);
+
+		for(int i =0; i<splitted.length;i++){
+			lc1.add(splitted[i]);
 		}
+		splitted = s2.split(" ");
+		for(int i =0; i<splitted.length;i++){
+			lc2.add(splitted[i]);
+		}
+		System.out.println(lc2.cosSimil(lc1));
+		System.out.println(lc1.cosSimil(lc2));
 
-		br.close();
+		System.exit(1);
+
 		int i = 5;
 		int max =  128973;
 
@@ -92,81 +87,6 @@ public class FindNearDuplicatesDB {
 			ndt4.start();
 
 		}
-		/*
-		ndt5.start();
-		ndt6.start();
-		ndt7.start();
-		ndt8.start();
-		ndt9.start();
-		ndt10.start();
-		*/
-
-
-/*
-		/*create lc1
-		LettersCount lc = new LettersCount(lexique);
-		text = Tools.normalize(text);
-		data = text.split(" ");
-
-		for(int i =0; i<data.length;i++){
-			lc.add(data[i]);
-		}
-
-
-		/*search through all others
-
-		LettersCount lc2 = null;
-		double simil = 0;
-		String[] splitted;
-
-		PreparedStatement stat = conn.prepareStatement(
-		        sql2,
-		        ResultSet.TYPE_FORWARD_ONLY,
-		        ResultSet.CONCUR_READ_ONLY);
-		    stat.setFetchSize(Integer.MIN_VALUE);
-
-		    rs = stat.executeQuery();
-		    while (rs.next()) {
-		    	lc2 = new LettersCount(lexique);
-		    	int currId = rs.getInt(1);
-				String currText = rs.getString(2);
-
-				/*
-				 if(currId == id){
-
-					continue;
-				}
-
-				currText = Tools.normalize(currText);
-				splitted = currText.split(" ");
-
-				for(int i =0; i<splitted.length;i++){
-					lc2.add(splitted[i]);
-				}
-
-				simil = lc.cosSimil(lc2);
-
-
-
-				if(simil>0.8 && simil !=1){
-					System.out.println(text);
-					System.out.println(currText);
-					System.out.println(simil);
-					System.exit(1);
-				}
-
-
-				lc2 = null;
-
-
-		    }
-		    System.out.println("end");
-
-
-		    rs.close();
-		    stat.close();
-		    conn.close();
-*/
 
 
 	}

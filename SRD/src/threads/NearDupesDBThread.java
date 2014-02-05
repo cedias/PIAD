@@ -43,8 +43,6 @@ public class NearDupesDBThread extends Thread {
 				rs.close();
 
 
-		/*	System.out.println("[THREAD "+id+"] started idReview := "+idReview);*/
-
 			/*create lc1*/
 			LettersCount lc = new LettersCount(lexicon);
 			text = Tools.normalize(text);
@@ -53,7 +51,6 @@ public class NearDupesDBThread extends Thread {
 			for(int i =0; i<data.length;i++){
 				lc.add(data[i]);
 			}
-		/*	System.out.println("[THREAD "+id+"] lc created");*/
 
 
 			/*search through all others*/
@@ -62,7 +59,6 @@ public class NearDupesDBThread extends Thread {
 			double simil = 0;
 			String[] splitted;
 			int nearDupes=0;
-			int count=0;
 
 			PreparedStatement stat = conn.prepareStatement(
 			        sql2,
@@ -94,14 +90,13 @@ public class NearDupesDBThread extends Thread {
 
 					if(simil>0.8){
 						nearDupes++;
+						System.out.println(text);
+						System.out.println("------");
+						System.out.println(currText);
+						System.exit(1);
 					}
-					count++;
 
 					lc2 = null;
-					/*if(count%10000==0){
-					System.out.println("[THREAD "+id+"] count= "+count);
-					System.out.println("[THREAD "+id+"] currId= "+currId);
-					}*/
 
 
 			    }
