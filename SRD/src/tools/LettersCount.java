@@ -8,11 +8,13 @@ public class LettersCount  {
 
 	HashMap<Integer, Integer> letters;
 	HashMap<String, Integer> lexique;
+	int id;
 
 
-	public LettersCount(HashMap<String, Integer> lexique) {
+	public LettersCount(HashMap<String, Integer> lexique,int id) {
 		this.lexique = lexique;
 		this.letters = new HashMap<Integer,Integer>(82);//nb de mot moyen par review.
+		this.id = id;
 	}
 
 	public int get(int i) {
@@ -63,6 +65,10 @@ public class LettersCount  {
 			s+= i+":"+this.letters.get(i)+" ; ";
 		}
 		return s.concat("]");
+	}
+
+	public int getId(){
+		return this.id;
 	}
 
 

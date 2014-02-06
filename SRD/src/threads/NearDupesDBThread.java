@@ -44,7 +44,7 @@ public class NearDupesDBThread extends Thread {
 
 
 			/*create lc1*/
-			LettersCount lc = new LettersCount(lexicon);
+			LettersCount lc = new LettersCount(lexicon, idReview);
 			text = Tools.normalize(text);
 			String[] data = text.split(" ");
 
@@ -68,9 +68,9 @@ public class NearDupesDBThread extends Thread {
 
 			     rs = stat.executeQuery();
 			    while (rs.next()) {
-			    	lc2 = new LettersCount(lexicon);
 			    	int currId = rs.getInt(1);
 					String currText = rs.getString(2);
+					lc2 = new LettersCount(lexicon,currId);
 
 
 					 if(currId == idReview)

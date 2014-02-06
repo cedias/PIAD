@@ -1,39 +1,46 @@
 package threads;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.ListIterator;
+
 import tools.LettersCount;
 
 
 public class NearDupesMemThread extends Thread {
 
-	HashMap<Integer, LettersCount> vectors;
-	LettersCount lc;
-	int id;
+	ArrayList<LettersCount> reviews;
+	final int index;
 
 
 
-	public NearDupesMemThread(HashMap<Integer, LettersCount> reviews, int id) {
-		this.lc = reviews.get(id);
-		this.vectors = reviews;
-		this.id = id;
+	public NearDupesMemThread(ArrayList<LettersCount> reviews,final int index) {
+		this.reviews = reviews;
+		this.index = index;
 	}
 
 
 
 
 	public void run(){
-
+		int count=0;
 		 try{
-			
-			 for(LettersCount lc2 :vectors.values()){
-				 if(lc.cosSimil(lc2)>0.9){
-					 System.out.println("DUPE");
+			 LettersCount lc = reviews.get(index); //initial;
+			 for(int i=index+1;i<reviews.size();i++){
+				 if(lc.cosSimil(reviews.get(i))>= 0.9){
+					 count++;
+					 System.out.println("----");
+					 System.out.println(lc.getId());
+					 System.out.println(reviews.get(i).getId());
 				 }
-				 
+
+
 			 }
-			 System.out.println("[THREAD"+id+"] finished"); 
-			 
+			 System.out.println("[THREAD"+index+"] finished, dupes= "+count);
+
 		 }catch(Exception e){
 			System.out.println("[THREAD] ERROR:"+e.getMessage());
 
