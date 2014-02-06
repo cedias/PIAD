@@ -1,32 +1,27 @@
 package tools;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
 
 public class LettersCount  {
 
-	HashMap<Integer, Integer> letters; //count
-	HashMap<String, Integer> lexique; //lexique
-	int size;
-	static boolean singleLetters=false;
+	HashMap<Integer, Integer> letters;
+	HashMap<String, Integer> lexique;
 
-	public static void setSingleLetters(final boolean b){
-		singleLetters = b;
-	}
 
 	public LettersCount(HashMap<String, Integer> lexique) {
-		this.size = lexique.size();
 		this.lexique = lexique;
-		this.letters = new HashMap<Integer,Integer>(82);
+		this.letters = new HashMap<Integer,Integer>(82);//nb de mot moyen par review.
 	}
 
-	public int add(String s){
+	public int get(int i) {
+		return (!this.letters.containsKey(i))? 0 : this.letters.get(i);
+	}
 
-			if(singleLetters == false && s.length()==1 )
-				return 0; //ignore singles
+	public void add(String s){
 
 			Integer i = lexique.get(s); //error prone, no tests
-
-
 			Integer count = letters.get(i);
 
 			if(null != count)
@@ -35,58 +30,42 @@ public class LettersCount  {
 				count = 1;
 
 			letters.put(i, count);
-			return count;
-
 	}
 
-	public int getGramCount(String s ){
-		Integer i = lexique.get(s); //error prone, no tests
-		Integer count = letters.get(i);
-		return count;
+	public double dotProduct(LettersCount lc){
+		double sum = 0.0;
+
+		 if (this.letters.size() <= lc.letters.size()) {
+	            for (Integer i : this.letters.keySet())
+	                if (lc.letters.containsKey(i))
+	                	sum += this.letters.get(i) * lc.letters.get(i);
+		 } else {
+	            for (Integer i : lc.letters.keySet())
+	                if (this.letters.containsKey(i))
+	                	sum += this.letters.get(i) * lc.letters.get(i);
+	        }
+	        return sum;
 	}
 
-	public int size(){
-		return letters.size();
+	public double norm(){
+		return Math.sqrt(this.dotProduct(this));
 	}
 
 	public double cosSimil(LettersCount lc){
-		double res=0;
-		double normA=0;
-		double normB=0;
-		double ta;
-		double tb;
-		int a=0;
-		int b=0;
+		return this.dotProduct(lc)/(this.norm()*lc.norm());
 
-		for(int i:letters.keySet()){
-			a = this.get(i);
-			b = lc.get(i);
-			res+=(a*b);
-			normA+=(a*a);
-			normB+=(b*b);
+	}
+
+	public String toString(){
+
+		String s = "[";
+		for (int i : this.letters.keySet()){
+			s+= i+":"+this.letters.get(i)+" ; ";
 		}
-
-		ta = normA;
-		tb = normB;
-		normA = Math.sqrt(normA);
-		normB = Math.sqrt(normB);
-
-		System.out.println(res);
-		System.out.println(normA);
-		System.out.println(normB);
-		System.out.println(res/(Math.sqrt(ta)*Math.sqrt(tb)));
-
-
-		res = res/(normA*normB);
-
-		return res;
-
+		return s.concat("]");
 	}
 
-	public int get(int i) {
-		final Integer res = letters.get(i);
-		return (res==null)? 0:res;
-	}
+
 
 
 

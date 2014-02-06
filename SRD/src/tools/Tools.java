@@ -1,7 +1,6 @@
 package tools;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
@@ -22,7 +21,7 @@ public class Tools {
 
 			String[] array = text.split(" ");
 
-			for(int i=0;i<array.length-w;i++){
+			for(int i=0;i<=array.length-w;i++){
 				String[] temp = Arrays.copyOfRange(array, i, i+w);
 
 				String toHash =temp[0];
@@ -32,6 +31,7 @@ public class Tools {
 
 				if(!resultSet.containsKey(toHash))
 					resultSet.put(toHash, resultSet.size());
+
 			}
 
 

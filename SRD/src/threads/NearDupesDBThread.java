@@ -26,9 +26,9 @@ public class NearDupesDBThread extends Thread {
 
 		 try{
 
-			String sqlBase = 	"SELECT  `review_id` ,  `text` "+
-							"FROM  `reviews` "+
-							"WHERE  `exact_duplicate_id` IS NULL";
+			String sqlBase = "SELECT  `review_id` ,  `text` "+
+							 "FROM  `reviews` "+
+							 "WHERE  `exact_duplicate_id` IS NULL";
 
 			String sql2 = sqlBase + " LIMIT "+(id-1)+" , 100000000";
 
@@ -73,7 +73,7 @@ public class NearDupesDBThread extends Thread {
 					String currText = rs.getString(2);
 
 
-					 if(currId == id)
+					 if(currId == idReview)
 						continue;
 
 
@@ -84,16 +84,18 @@ public class NearDupesDBThread extends Thread {
 						lc2.add(splitted[i]);
 					}
 
-					simil = lc.cosSimil(lc2);
+					simil = lc2.cosSimil(lc);
 
 
 
-					if(simil>0.8){
+					if(simil>0.9){
 						nearDupes++;
-						System.out.println(text);
 						System.out.println("------");
+						System.out.println(idReview);
+						System.out.println(text);
+						System.out.println(currId);
 						System.out.println(currText);
-						System.exit(1);
+						System.out.println("------");
 					}
 
 					lc2 = null;
@@ -107,6 +109,7 @@ public class NearDupesDBThread extends Thread {
 			    stat.close();
 
 		 }catch(Exception e){
+			 e.printStackTrace();
 			System.out.println("[THREAD "+id+"] ERROR:"+e.getMessage());
 
 		  }

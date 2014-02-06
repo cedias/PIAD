@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import tools.Tools;
+
 import database.DB;
 import database.ReviewSQL;
 
@@ -62,15 +64,15 @@ public class LoadDataFull {
 				 *data[8]: Review summary
 				 *data[9]: Review text
 				 */
-
-				if(reviews.containsKey(data[9]))
+				String normText = Tools.normalize(data[9]);
+				if(reviews.containsKey(normText))
 				{
 					dupes++;
-					idDupe = reviews.get(data[9]);
+					idDupe = reviews.get(normText);
 				}
 				else
 				{
-					reviews.put(data[9], id);
+					reviews.put(normText, id);
 					idDupe=0;
 
 				}
