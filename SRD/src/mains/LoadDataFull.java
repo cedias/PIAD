@@ -103,6 +103,7 @@ public class LoadDataFull {
 			}
 			}catch(Exception e)
 			{
+				sc.close();
 				System.out.println(e.getMessage());
 				throw e;
 			}

@@ -33,29 +33,61 @@ public class FindNearDuplicatesMem {
 		HashMap<String,Integer> lexique = new HashMap<String,Integer>();
 		HashMap<Integer,LettersCount> reviews = new HashMap<Integer,LettersCount>();
 
-
+		/*creates lexicon*/
 		Tools.populateLexicon("output/OPStripped_WED.txt", lexique, 1);
 
 		BufferedReader br = new BufferedReader(new FileReader("output/OPStripped_WED.txt"));
 		String line;
 		String data[];
+		LettersCount lc;
+		int id;
+		
+		
 
-			/*creates lexicon*/
+		/*create vectors*/	
 			while((line=br.readLine())!=null){
+				
 				data = line.split(":->:");
+				id = Integer.parseInt(data[0]);
 				line = Tools.normalize(data[1]);
-
-				for
-
+				data = line.split(" ");
+				
+				lc = new LettersCount(lexique);
+				
+				for(int i=0;i<data.length;i++){
+					lc.add(data[i]);
+				}
+				reviews.put(id, lc);
+				lc=null;
 			}
 
 			br.close();
-		}
+		
+			System.out.println("THREAD START");
 
+			NearDupesMemThread th = new NearDupesMemThread(reviews, 1);
+			NearDupesMemThread th2 = new NearDupesMemThread(reviews, 2);
+			
+			Long start = System.currentTimeMillis();
+			th.start();
+			th2.start();
+			int i=3;
+			int max=130000;
+			
+			while(i<= max){
+				th.join();
+				th2.join();
 
-
-
-
+				th = new NearDupesMemThread(reviews,i);
+				i++;
+				th2 = new NearDupesMemThread(reviews, i);
+				i++;
+				th.start();
+				th2.start();
+			}
+			Long end = System.currentTimeMillis();
+			System.out.println("time: "+(end-start)/1000);
+			System.out.println("Threads end");
 	}
-
+		
 }
