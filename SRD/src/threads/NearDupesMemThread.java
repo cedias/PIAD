@@ -2,10 +2,7 @@ package threads;
 
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.ListIterator;
+import database.UpdateReviews;
 
 import tools.LettersCount;
 
@@ -14,37 +11,37 @@ public class NearDupesMemThread extends Thread {
 
 	ArrayList<LettersCount> reviews;
 	final int index;
+	UpdateReviews up;
+	int window;
+	double simil;
 
 
 
-	public NearDupesMemThread(ArrayList<LettersCount> reviews,final int index) {
+	public NearDupesMemThread(ArrayList<LettersCount> reviews,final int index, UpdateReviews up, int window,double simil) {
 		this.reviews = reviews;
 		this.index = index;
+		this.up = up;
+		this.window = window;
+		this.simil = simil;
 	}
 
-
-
-
 	public void run(){
-		int count=0;
 		 try{
-			 LettersCount lc = reviews.get(index); //initial;
-			 for(int i=index+1;i<reviews.size();i++){
-				 if(lc.cosSimil(reviews.get(i))>= 0.9){
-					 count++;
-					 System.out.println("----");
-					 System.out.println(lc.getId());
-					 System.out.println(reviews.get(i).getId());
-				 }
-
-
+			 LettersCount lc2;
+			 LettersCount lc = reviews.get(index);
+			 
+			 int max = (index+window<reviews.size())? index+window : reviews.size();
+			 
+			 for(int i=index+1;i<max;i++){
+				lc2 = reviews.get(i);
+				
+				if(lc.cosSimil(reviews.get(i)) >= simil)
+					 up.addNearDuplicate(lc.getId(), lc2.getId()); 
 			 }
-			 System.out.println("[THREAD"+index+"] finished, dupes= "+count);
 
 		 }catch(Exception e){
 			System.out.println("[THREAD] ERROR:"+e.getMessage());
-
-		  }
+		 }
 	 }
 
 

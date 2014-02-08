@@ -12,23 +12,27 @@ public class LettersCountTest {
 	 */
 	public static void main(String[] args) {
 		String s1 = "this is a quite spectacular test string already normalized";
-		String s2 = "this is, a quite spectacular! test string, already? normalized !%% wwo";
+		String s2 = "get this you twat blowing useless cocks";
+		String s3 = "this is string, already? normalized !%% wwo where's the love? mate";
 		HashMap<String,Integer> lexique = new HashMap<String,Integer>();
 
 
 		s1 = Tools.normalize(s1);
 		s2 = Tools.normalize(s2);
-
+		System.out.println(s1);
+		System.out.println(s2);
 		System.out.println("S1 == S2: " + s1.equals(s2));
 		Tools.toHashShingles(s1, 1, lexique);
 		Tools.toHashShingles(s2, 1, lexique);
+		Tools.toHashShingles(s3, 1, lexique);
 		System.out.println("Lexique == 9: " + (lexique.size()==s1.length()));
 
 
 		String[] splitted = s1.split(" ");
 
-		LettersCount lc1 = new LettersCount(lexique);
-		LettersCount lc2 = new LettersCount(lexique);
+		LettersCount lc1 = new LettersCount(lexique,1);
+		LettersCount lc2 = new LettersCount(lexique,2);
+		LettersCount lc3 = new LettersCount(lexique,2);
 
 		for(int i =0; i<splitted.length;i++){
 			lc1.add(splitted[i]);
@@ -38,10 +42,11 @@ public class LettersCountTest {
 		for(int i =0; i<splitted.length;i++){
 			lc2.add(splitted[i]);
 		}
-		System.out.println(lc2.cosSimil(lc2));
-		System.out.println(lc1.cosSimil(lc1));
-		System.out.println(lc2.cosSimil(lc1));
-		System.out.println(lc1.cosSimil(lc2));
+
+		System.out.println(Math.sqrt(lc2.dotProduct(lc2)));
+		System.out.println(lc2.norm());
+		
+
 
 
 	}

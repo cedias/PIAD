@@ -32,6 +32,7 @@ public class ReviewSQL {
 	}
 
 
+
 	public static void insertReviewBatchExactDupe(PreparedStatement st, String uid, String pid, float score, String time, int help
 				,int nbHelp, String summary, String text, int dupeId) throws ClassNotFoundException, SQLException{
 
@@ -118,5 +119,18 @@ public static void insertReviewBatchNearDupe(PreparedStatement st,String text, i
 
 	st.addBatch();
 }
+
+public static PreparedStatement getUpdateNearDuplicateStatement(Connection c) throws SQLException{
+	String sql = "UPDATE  `amazon`.`reviews` SET  `near_duplicate_id` = ? WHERE  `reviews`.`review_id` =?;";
+	PreparedStatement st = c.prepareStatement(sql);
+	return st;
+}
+
+public static void addBatchNearDuplicateUpdate(PreparedStatement st, int reviewId, int duplicateId) throws SQLException{
+	st.setInt(1, duplicateId);
+	st.setInt(2, reviewId);
+	st.addBatch();
+}
+
 
 }

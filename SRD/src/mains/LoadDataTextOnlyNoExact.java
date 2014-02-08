@@ -29,8 +29,8 @@ public class LoadDataTextOnlyNoExact {
 		System.out.println("---END POPULATION---");
 
 
-		LettersCount lc = new LettersCount(lexique);
-		LettersCount lc2 = new LettersCount(lexique);
+		LettersCount lc = new LettersCount(lexique,0); //!\INDEX 0 Careful
+		LettersCount lc2 = new LettersCount(lexique,0);
 
 		br = new BufferedReader(new FileReader("output/OPStripped_WED.txt"));
 		line = br.readLine();
@@ -60,7 +60,7 @@ public class LoadDataTextOnlyNoExact {
 					if(res>0.85)
 						System.out.println("suspected duplicate: "+ nb);
 
-			lc2 =  new LettersCount(lexique);
+			lc2 =  new LettersCount(lexique,0); //!\ Danger
 			} catch (Exception e) {
 				System.out.println(line);
 				System.exit(1);
