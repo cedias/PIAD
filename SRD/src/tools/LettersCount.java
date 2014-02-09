@@ -1,5 +1,6 @@
 package tools;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class LettersCount implements Comparable<LettersCount> {
@@ -15,6 +16,26 @@ public class LettersCount implements Comparable<LettersCount> {
 		this.lexique = lexique;
 		this.letters = new HashMap<Integer,Integer>(82);//nb de mot moyen par review.
 		this.id = id;
+	}
+	
+	public LettersCount(HashMap<String, Integer> lexique,int id,int w,String text) {
+		this.lexique = lexique;
+		this.letters = new HashMap<Integer,Integer>(82);//nb de mot moyen par review.
+		this.id = id;
+		
+		String[] array = text.split(" ");
+
+		for(int i=0;i<=array.length-w;i++){
+			String[] temp = Arrays.copyOfRange(array, i, i+w);
+
+			String toAdd =temp[0];
+			for(int j=1;j<temp.length;j++){
+				toAdd = toAdd.concat(" ").concat(temp[j]);
+			}
+
+			add(toAdd);
+
+		}
 	}
 
 	public int get(int i) {

@@ -26,57 +26,58 @@ public class FindNearDuplicatesMem {
 	 * @throws InterruptedException
 	 */
 	public static void main(String[] args) throws ClassNotFoundException, SQLException, IOException, InterruptedException {
+		/*Parameters*/
+		int win = 1000;
+		double sim = 0.90;
+		int nGramSize = 1;
+		String filename = "output/OPStripped_WED.txt";
+		
 		HashMap<String,Integer> lexique = new HashMap<String,Integer>();
 		ArrayList<LettersCount> reviews = new ArrayList<LettersCount>();
-		int win = 100000;
-		double sim = 0.90;
 		
-		long start = System.currentTimeMillis();
-		/*creates lexicon*/
-		Tools.populateLexicon("output/test.txt", lexique, 1);
-
-		BufferedReader br = new BufferedReader(new FileReader("output/test.txt"));
-		String line;
-		String data[];
-		LettersCount lc;
 		Connection conn = DB.getConnection();
 		UpdateReviews up = new UpdateReviews(conn);
-		int id;
 		
+		LettersCount lc;
+		
+		long start = System.currentTimeMillis();
+		
+		/*creates lexicon*/
+		Tools.populateLexicon(filename, lexique, nGramSize);
 
 		/*create vectors*/
+			BufferedReader br = new BufferedReader(new FileReader(filename));
+			String line;
 			while((line=br.readLine())!=null){
 
-				data = line.split(":->:");
-				id = Integer.parseInt(data[0]);
-				line = Tools.normalize(data[1]);
-				data = line.split(" ");
-
-				lc = new LettersCount(lexique,id);
-
-				for(int i=0;i<data.length;i++){
-					lc.add(data[i]);
-				}
+				String[] data = line.split(":->:");
+				final int id = Integer.parseInt(data[0]);
 				
+				line = Tools.normalize(data[1]);
+				lc = new LettersCount(lexique,id, nGramSize,line);
 				reviews.add(lc);
 				lc=null;
 			}
 
 			br.close();
-
+			
+				System.out.println("gogo");
+				
+			/*sorting*/
 			Collections.sort(reviews);
 
 			NearDupesMemThread th1;
 			NearDupesMemThread th2;
 			NearDupesMemThread th3;
 			NearDupesMemThread th4;
-
 			
-
-			for(int i=0;i<reviews.size();i=i+4)
+			
+			/*Searching for dupes*/
+			for(int i=0;i<reviews.size();i++)
 			{
 				th1 = new NearDupesMemThread(reviews, i,up, win, sim);
 				th1.start();
+				
 				th2 = new NearDupesMemThread(reviews, i+1,up,win, sim);
 				th2.start();
 				th3 = new NearDupesMemThread(reviews, i+2,up, win, sim);
@@ -88,7 +89,6 @@ public class FindNearDuplicatesMem {
 				th2.join();
 				th3.join();
 				th4.join();
-				
 				
 				
 			}

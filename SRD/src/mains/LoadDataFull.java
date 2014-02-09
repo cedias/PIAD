@@ -5,9 +5,11 @@ import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import tools.LettersCount;
 import tools.Tools;
 
 import database.DB;
@@ -28,6 +30,9 @@ public class LoadDataFull {
 		Long start = System.currentTimeMillis();
 		Scanner sc = new Scanner(new File("data/Office_Products.txt"));
 		HashMap<String,Integer> reviews = new HashMap<String,Integer>();
+		HashMap<String,Integer> lexique = new HashMap<String,Integer>();
+		ArrayList<LettersCount> vectors = new ArrayList<LettersCount>();
+		
 		String line = "";
 		String[] data = new String[10];
 		String[] help;
@@ -101,6 +106,7 @@ public class LoadDataFull {
 			try{
 			if(id%1000==0){
 				st.executeBatch();
+				System.out.println(id);
 			}
 			}catch(Exception e)
 			{

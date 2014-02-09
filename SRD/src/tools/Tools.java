@@ -18,7 +18,6 @@ public class Tools {
 	}
 
 		public static Map<String,Integer> toHashShingles(String text,int w, Map<String,Integer> resultSet){
-
 			String[] array = text.split(" ");
 
 			for(int i=0;i<=array.length-w;i++){
