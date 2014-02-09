@@ -16,6 +16,7 @@ import database.ReviewSQL;
 public class LoadDataFull {
 
 	/**
+	 * loads everything and search for duplicates.
 	 * @param args
 	 * @throws SQLException
 	 * @throws ClassNotFoundException

@@ -1,15 +1,13 @@
 package tools;
 
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Set;
 
 public class LettersCount implements Comparable<LettersCount> {
 
 	HashMap<Integer, Integer> letters;
 	HashMap<String, Integer> lexique;
 	int sumComp = -1;
-	double norm =-1;
+	double norm = -1;
 	int id;
 
 

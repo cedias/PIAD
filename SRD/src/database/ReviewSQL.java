@@ -51,9 +51,7 @@ public class ReviewSQL {
 			else
 				st.setNull(9, Types.INTEGER);
 
-
 			st.addBatch();
-
 	}
 
 

@@ -9,11 +9,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.PriorityQueue;
-
 import database.DB;
 import database.UpdateReviews;
-
 import threads.NearDupesMemThread;
 import tools.LettersCount;
 import tools.Tools;
@@ -31,14 +28,14 @@ public class FindNearDuplicatesMem {
 	public static void main(String[] args) throws ClassNotFoundException, SQLException, IOException, InterruptedException {
 		HashMap<String,Integer> lexique = new HashMap<String,Integer>();
 		ArrayList<LettersCount> reviews = new ArrayList<LettersCount>();
-		int win = 1000;
+		int win = 100000;
 		double sim = 0.90;
 		
 		long start = System.currentTimeMillis();
 		/*creates lexicon*/
-		Tools.populateLexicon("output/OPStripped_WED.txt", lexique, 1);
+		Tools.populateLexicon("output/test.txt", lexique, 1);
 
-		BufferedReader br = new BufferedReader(new FileReader("output/OPStripped_WED.txt"));
+		BufferedReader br = new BufferedReader(new FileReader("output/test.txt"));
 		String line;
 		String data[];
 		LettersCount lc;

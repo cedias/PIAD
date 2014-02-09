@@ -17,7 +17,13 @@ import database.ReviewSQL;
 
 public class LoadDataTextOnly {
 
-
+	/**
+	 * Loads data from grep file
+	 * @param args
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException {
 
 		Long start = System.currentTimeMillis();
