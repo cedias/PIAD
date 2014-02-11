@@ -7,12 +7,38 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 
 import database.DB;
 
 public class FindReviewBursts {
 
+	/*
+	 * burst produit/date
+	 * 
+	sql="SELECT r.product_id, TIME, COUNT( * ) AS nb_reviews"+
+			"FROM reviews r"+
+			"GROUP BY product_id, TIME"+
+			"HAVING nb_reviews >10+
+			"ORDER BY nb_reviews DESC"+
+			"LIMIT 0 , 30";
+			
+			*/
+	/*
+	 * burst user/date
+	SELECT r.user_id, TIME, COUNT( * ) AS nb_reviews
+	FROM reviews r
+	WHERE user_id <>  "unknown"
+	GROUP BY user_id, TIME
+	HAVING nb_reviews >10
+	ORDER BY nb_reviews DESC 
+	LIMIT 0 , 30
+	
+	*/
+	
+	
 	public static int nb10 = 0;
 	public static void main(String[] args) throws NumberFormatException, ClassNotFoundException, SQLException, FileNotFoundException {
 	
@@ -23,54 +49,64 @@ public class FindReviewBursts {
 		double sumLen = 0;
 		int count =0;
 		
-		String sql = "SELECT user_id, time "
+		/*product/time*/
+		String sql = "SELECT product_id, time "
+				+"FROM  `reviews` "
+				+"ORDER BY  `product_id` ";
+		
+		/*user/time*/
+		String sql2 = "SELECT user_id, time "
 				+"FROM  `reviews` "
 				+"ORDER BY  `user_id` ";
 		
-		PreparedStatement stat = conn.prepareStatement(
-		        sql,
-		        ResultSet.TYPE_FORWARD_ONLY,
-		        ResultSet.CONCUR_READ_ONLY);
 		
-		    stat.setFetchSize(Integer.MIN_VALUE);
-		    ResultSet rs = stat.executeQuery();
+		    ResultSet rs = DB.getStreamingResultSet(sql, conn);
 		    
 		    	while(rs.next()){
 		    		currProduct = rs.getString(1);
 		    		
-		    		if(!currProduct.equals(exProd)){
-		    			System.out.println(FindReviewBursts.hasBurst(dates,10));
-		    			sumLen+=dates.size();
+		    		if(!currProduct.equals(exProd) && exProd!=""){
+		    			if(FindReviewBursts.hasBurst(dates,5))
+		    				System.out.println(currProduct + " has a burst");
 		    			dates = new ArrayList<Date>();
-		    			
-		    			count++;
 		    		}
 		    		
 		    		dates.add(rs.getDate(2));
 		    		exProd = currProduct;
 		    	}
-		    	sumLen+=dates.size();
-    			System.out.println(FindReviewBursts.hasBurst(dates,10));
-    			System.out.println(nb10);
 		    
 	
 	}
 
-	private static boolean hasBurst(ArrayList<Date> dates, int window) {
-		boolean hasBurst = true;
+	/*nb même jours > Param == burst*/
+	private static boolean hasBurst(ArrayList<Date> dates, int param) {
+		int count = 0;
+		Collections.sort(dates);
+		Date curr = dates.get(0);
 		
-		if(dates.size()<window)
+		if(dates.size()<param)
 			return false;
 		
 		
-		for(int i=0;i<dates.size()-window;i++){
-			for(int j=i;j<i+window;j++){
-				dates.get(j).getTime();
-			}
+		for(int i=1;i<dates.size();i++){
 			
+			if(dates.get(i).equals(curr)){
+				count++;
+				
+				if(count>=param)
+					return true;
+			}
+			else
+			{
+			curr = dates.get(i);
+			count=0;
+			}
 		}
-		nb10++;
-		return hasBurst;
+		
+		if(count>=param)
+			return true;
+		
+		return false;
 			
 	}
 	
