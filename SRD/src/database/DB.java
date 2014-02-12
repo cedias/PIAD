@@ -24,5 +24,16 @@ public class DB {
 		    stat.setFetchSize(Integer.MIN_VALUE);
 		    return stat.executeQuery();
 	}
+	
+	public static PreparedStatement getStreamingStatement(String sql, Connection conn) throws SQLException{
+		
+		PreparedStatement stat = conn.prepareStatement(
+		        sql,
+		        ResultSet.TYPE_FORWARD_ONLY,
+		        ResultSet.CONCUR_READ_ONLY);
+		
+		    stat.setFetchSize(Integer.MIN_VALUE);
+		    return stat;
+	}
 
 }

@@ -1,37 +1,29 @@
-package mains;
+package tasks;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
-
-import tools.LettersCount;
 import tools.Tools;
-
 import database.DB;
 import database.ReviewSQL;
 
-public class LoadDataFull {
+public class LoadDataTask implements Runnable{
+	
+	String filename;
 
-	/**
-	 * loads everything and search for duplicates.
-	 * @param args
-	 * @throws SQLException
-	 * @throws ClassNotFoundException
-	 * @throws NumberFormatException
-	 * @throws FileNotFoundException
-	 */
-	public static void main(String[] args) throws NumberFormatException, ClassNotFoundException, SQLException, FileNotFoundException {
-
-		Long start = System.currentTimeMillis();
-		Scanner sc = new Scanner(new File("data/Office_Products.txt"));
+	public LoadDataTask(String filename) {
+		this.filename=filename;
+	}
+	
+	@Override
+	public void run() {
+		
+		try{
+		Scanner sc = new Scanner(new File(filename));
 		HashMap<String,Integer> reviews = new HashMap<String,Integer>();
-		HashMap<String,Integer> lexique = new HashMap<String,Integer>();
-		ArrayList<LettersCount> vectors = new ArrayList<LettersCount>();
+		
 		
 		String line = "";
 		String[] data = new String[10];
@@ -39,7 +31,6 @@ public class LoadDataFull {
 		int i = 0;
 		int id = 1;
 		int idDupe = 0;
-		int dupes=0;
 		Connection conn = DB.getConnection();
 		conn.setAutoCommit(false);
 		PreparedStatement st = ReviewSQL.getInsertReviewStatement(conn);
@@ -47,14 +38,11 @@ public class LoadDataFull {
 
 		while(sc.hasNextLine()){
 			line = sc.nextLine();
-
 			try {
 				data[i] = line.split("^*/*: ")[1];
 			} catch (ArrayIndexOutOfBoundsException e) {
 				data[i] = "unknown";
 			}
-
-
 			i++;
 
 			if(i==10){
@@ -73,7 +61,6 @@ public class LoadDataFull {
 				String normText = Tools.normalize(data[9]);
 				if(reviews.containsKey(normText))
 				{
-					dupes++;
 					idDupe = reviews.get(normText);
 				}
 				else
@@ -84,6 +71,7 @@ public class LoadDataFull {
 				}
 
 				help = data[5].split("/");
+				
 				ReviewSQL.insertReviewBatchExactDupe(
 						st,
 						data[3],
@@ -95,7 +83,7 @@ public class LoadDataFull {
 						data[8],
 						data[9],
 						idDupe
-						);
+				);
 
 				if(sc.hasNextLine()){
 					sc.nextLine();
@@ -103,25 +91,23 @@ public class LoadDataFull {
 					id++;
 				}
 			}
-			try{
-			if(id%1000==0){
+			
+			if(id%1000==0 && i==0){
 				st.executeBatch();
-				System.out.println(id);
 			}
-			}catch(Exception e)
-			{
-				sc.close();
-				System.out.println(e.getMessage());
-				throw e;
-			}
-
 		}
+		
+		st.executeBatch();
 		conn.commit();
+		st.close();
 		sc.close();
-		System.out.println(dupes +" exact duplicates on "+id +" reviews");
-		Long end = System.currentTimeMillis();
-		System.out.println(id +" reviews loaded in "+ (end-start)/1000 + " seconds");
+		return;
+		
+		}catch(Exception e){
+			System.out.println("EXCEPTION upload task:");
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
 
 	}
-
 }

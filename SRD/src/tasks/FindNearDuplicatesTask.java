@@ -1,37 +1,37 @@
-package mains;
+package tasks;
 
 import java.io.BufferedReader;
-
 import java.io.FileReader;
-import java.io.IOException;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import database.DB;
-import database.UpdateReviews;
+
 import threads.NearDupesMemThread;
 import tools.LettersCount;
 import tools.Tools;
+import database.DB;
+import database.UpdateReviews;
 
+public class FindNearDuplicatesTask implements Runnable {
+	
+	private final int win;
+	private final double sim;
+	private final int nGramSize;
+	private final String filename;
+	
 
-public class FindNearDuplicatesMem {
+	public FindNearDuplicatesTask(int win, double sim, int nGramSize, String filename) {
+		super();
+		this.win = win;
+		this.sim = sim;
+		this.nGramSize = nGramSize;
+		this.filename = filename;
+	}
 
-	/**
-	 * @param args
-	 * @throws SQLException
-	 * @throws ClassNotFoundException
-	 * @throws IOException
-	 * @throws InterruptedException
-	 */
-	public static void main(String[] args) throws ClassNotFoundException, SQLException, IOException, InterruptedException {
-		/*Parameters*/
-		int win = 1000;
-		double sim = 0.90;
-		int nGramSize = 1;
-		String filename = "output/OPStripped_WED.txt";
-		
+	@Override
+	public void run() {
+		try{
 		HashMap<String,Integer> lexique = new HashMap<String,Integer>();
 		ArrayList<LettersCount> reviews = new ArrayList<LettersCount>();
 		
@@ -39,8 +39,6 @@ public class FindNearDuplicatesMem {
 		UpdateReviews up = new UpdateReviews(conn);
 		
 		LettersCount lc;
-		
-		long start = System.currentTimeMillis();
 		
 		/*creates lexicon*/
 		Tools.populateLexicon(filename, lexique, nGramSize);
@@ -60,11 +58,11 @@ public class FindNearDuplicatesMem {
 			}
 
 			br.close();
-			
-				System.out.println("gogo");
 				
 			/*sorting*/
 			Collections.sort(reviews);
+			
+			System.out.println("loading done - searching");
 
 			NearDupesMemThread th1;
 			NearDupesMemThread th2;
@@ -77,7 +75,6 @@ public class FindNearDuplicatesMem {
 			{
 				th1 = new NearDupesMemThread(reviews, i,up, win, sim);
 				th1.start();
-				
 				th2 = new NearDupesMemThread(reviews, i+1,up,win, sim);
 				th2.start();
 				th3 = new NearDupesMemThread(reviews, i+2,up, win, sim);
@@ -89,16 +86,20 @@ public class FindNearDuplicatesMem {
 				th2.join();
 				th3.join();
 				th4.join();
-				
-				
+				if(i%1000==0)
+					System.out.println(i);
 			}
 			
 			up.flushBatch();
 			conn.close();
 			
-			long end = System.currentTimeMillis();
-			System.out.println("end: "+(end-start)/1000);
-			
+		} catch(Exception e){
+			System.out.println("EXCEPTION find near duplicates task:");
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
 	}
+
+	
 
 }
