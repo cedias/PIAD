@@ -32,6 +32,32 @@ PRIMARY KEY(review_id)
 ;
 ''')
 
+TABLES['users'] = (
+ '''
+ CREATE TABLE IF NOT EXISTS users
+ (
+    user_id VARCHAR(25),
+    nb_duplicates INT,
+    nb_bursts INT,
+    PRIMARY KEY(user_id)
+ );
+'''
+)
+
+TABLES['products'] = (
+ '''
+ CREATE TABLE IF NOT EXISTS products
+ (
+    product_id VARCHAR(20),
+    nb_duplicates INT,
+    nb_bursts INT,
+    PRIMARY KEY(product_id)
+ );
+'''
+)
+
+
+
 cnx = mysql.connector.connect(user=sys.argv[2],password=sys.argv[3])
 cursor = cnx.cursor()
 
