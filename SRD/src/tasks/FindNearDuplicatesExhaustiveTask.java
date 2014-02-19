@@ -6,6 +6,7 @@ import tools.LettersCount;
 public class FindNearDuplicatesExhaustiveTask implements Runnable {
 	
 	private final double sim;
+	public volatile int nbDup;
 	private ArrayList<LettersCount> reviews;
 	
 
@@ -33,16 +34,17 @@ public class FindNearDuplicatesExhaustiveTask implements Runnable {
 				{
 					lc2 = reviews.get(j);
 					if(lc2.cosSimil(lc) >= sim && i!=j){
-						System.out.printf("[E] ids: (%d;%d) =>  list place: (%d;%d) => cosSimilIdent(%f;%f)\n",
-								lc.getId(), lc2.getId(), i,j , lc.cosSimilIdent(), lc2.cosSimilIdent());
+					//	System.out.printf("[E] ids: (%d;%d) =>  list place: (%d;%d) => cosSimilIdent(%f;%f)\n",
+						//		lc.getId(), lc2.getId(), i,j , lc.cosSimilIdent(), lc2.cosSimilIdent());
 						count++;
 					}
 				}
-				if(i%1000==0)
-					System.out.printf("[E] number: %d \n",i);
+				//if(i%1000==0)
+					//System.out.printf("[E] number: %d \n",i);
 			}
 			
 			System.out.println("Exhaustive search: "+count+ " duplicates");
+			this.nbDup = count;
 			
 		} catch(Exception e){
 			System.out.println("EXCEPTION find near duplicates task:");

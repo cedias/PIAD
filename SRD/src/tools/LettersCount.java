@@ -47,8 +47,9 @@ public class LettersCount implements Comparable<LettersCount> {
 			Integer i = lexique.get(s); //error prone, no tests
 			Integer count = letters.get(i);
 
-			if(null != count)
-				count++;
+			if(null != count){
+				//count++; --if want multiple...
+			}
 			else
 				count = 1;
 

@@ -7,6 +7,7 @@ public class FindNearDuplicatesHeuristicTask implements Runnable {
 	
 	private final double sim;
 	private final int win;
+	public volatile int nbDup;
 	private ArrayList<LettersCount> reviews;
 	
 	
@@ -37,15 +38,16 @@ public class FindNearDuplicatesHeuristicTask implements Runnable {
 				{
 					lc2 = reviews.get(j);
 					if(lc2.cosSimil(lc) >= sim && i!=j){
-						System.out.printf("[H] ids: (%d;%d) =>  list place: (%d;%d) => cosSimilIdent(%f;%f)\n",
-								lc.getId(), lc2.getId(), i,j , lc.cosSimilIdent(), lc2.cosSimilIdent());
+						//System.out.printf("[H] ids: (%d;%d) =>  list place: (%d;%d) => cosSimilIdent(%f;%f)\n",
+							//	lc.getId(), lc2.getId(), i,j , lc.cosSimilIdent(), lc2.cosSimilIdent());
 						count++;
 					}
 					
 				}
 			}
 			
-			System.out.println("Heuristic search: "+count+ " duplicates");
+			System.out.println("["+win+"]Heuristic search: "+count+ " duplicates");
+			this.nbDup = count;
 			
 		} catch(Exception e){
 			System.out.println("EXCEPTION find near duplicates task:");
