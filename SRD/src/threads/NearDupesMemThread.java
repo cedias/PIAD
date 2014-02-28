@@ -27,16 +27,20 @@ public class NearDupesMemThread extends Thread {
 
 	public void run(){
 		 try{
+			 if(index>=reviews.size())
+				 return;
+
+
 			 LettersCount lc2;
 			 LettersCount lc = reviews.get(index);
-			 
+
 			 int max = (index+window<reviews.size())? index+window : reviews.size();
-			 
+
 			 for(int i=index+1;i<max;i++){
 				lc2 = reviews.get(i);
-				
+
 				if(lc.cosSimil(reviews.get(i)) >= simil)
-					 up.addNearDuplicate(lc.getId(), lc2.getId()); 
+					 up.addNearDuplicate(lc.getId(), lc2.getId());
 			 }
 
 		 }catch(Exception e){

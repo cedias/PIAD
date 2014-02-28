@@ -4,7 +4,7 @@ import tasks.LoadDataTask;
 
 public class UploadData {
 
-	
+
 	public static void main(String[] args) {
 		String file = "data/Office_Products.txt";
 		Long start = System.currentTimeMillis();

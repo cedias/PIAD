@@ -1,5 +1,8 @@
 package tasks;
 
+import interfaces.Eater;
+import interfaces.Feeder;
+
 import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,22 +12,23 @@ import tools.Tools;
 import database.DB;
 import database.ReviewSQL;
 
-public class LoadDataTask implements Runnable{
-	
+public class LoadDataTask implements Runnable, Feeder {
+
 	String filename;
+	Eater e;
 
 	public LoadDataTask(String filename) {
 		this.filename=filename;
 	}
-	
+
 	@Override
 	public void run() {
-		
+
 		try{
 		Scanner sc = new Scanner(new File(filename));
 		HashMap<String,Integer> reviews = new HashMap<String,Integer>();
-		
-		
+
+
 		String line = "";
 		String[] data = new String[10];
 		String[] help;
@@ -68,10 +72,14 @@ public class LoadDataTask implements Runnable{
 					reviews.put(normText, id);
 					idDupe=0;
 
+					if(e != null){
+						e.eat(id,normText);
+					}
+
 				}
 
 				help = data[5].split("/");
-				
+
 				ReviewSQL.insertReviewBatchExactDupe(
 						st,
 						data[3],
@@ -91,23 +99,29 @@ public class LoadDataTask implements Runnable{
 					id++;
 				}
 			}
-			
+
 			if(id%1000==0 && i==0){
 				st.executeBatch();
 			}
 		}
-		
+
 		st.executeBatch();
 		conn.commit();
 		st.close();
 		sc.close();
 		return;
-		
+
 		}catch(Exception e){
 			System.out.println("EXCEPTION upload task:");
 			System.out.println(e.getMessage());
 			e.printStackTrace();
 		}
+
+	}
+
+	@Override
+	public void registerEater(Eater e) {
+	 this.e = e;
 
 	}
 }
