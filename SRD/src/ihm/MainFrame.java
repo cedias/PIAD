@@ -2,6 +2,7 @@ package ihm;
 
 import ihm.componants.DBConfig;
 import ihm.componants.DBFileChooser;
+import ihm.listeners.UploadButtonListener;
 
 import java.awt.GridLayout;
 import javax.swing.JButton;
@@ -12,6 +13,9 @@ import javax.swing.JFrame;
 public class MainFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+	private final DBConfig dbConf = new DBConfig();
+	private final DBFileChooser dbFile = new DBFileChooser();
+	private final JButton uploadButton = new JButton("Upload");
 
 
 
@@ -31,9 +35,10 @@ public class MainFrame extends JFrame {
 	}
 
 	private void addFrames() {
-		this.add(new DBConfig());
-		this.add(new DBFileChooser());
-		this.add(new JButton("upload"));
+		this.add(dbConf);
+		this.add(dbFile);
+		this.add(uploadButton);
+		this.uploadButton.addActionListener(new UploadButtonListener(dbConf,dbFile));
 
 	}
 
