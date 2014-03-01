@@ -101,7 +101,11 @@ public class LoadDataTask implements Runnable, Feeder {
 			}
 
 			if(id%1000==0 && i==0){
+				System.out.println(id);
 				st.executeBatch();
+
+				if(id%100000==0)
+					conn.commit();
 			}
 		}
 
@@ -109,6 +113,7 @@ public class LoadDataTask implements Runnable, Feeder {
 		conn.commit();
 		st.close();
 		sc.close();
+		System.out.println("Loading Finished");
 		return;
 
 		}catch(Exception e){
