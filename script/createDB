@@ -13,45 +13,67 @@ DB_NAME = sys.argv[1]
 
 TABLES = {}
 TABLES['reviews'] = (
-'''
-CREATE TABLE IF NOT EXISTS reviews
-(
-review_id INT not null AUTO_INCREMENT,
-user_id VARCHAR(25),
-product_id VARCHAR(20),
-score FLOAT(2),
-time DATE,
-helpfullness INT,
-nb_helpfullness INT,
-summary VARCHAR(255),
-text LONGTEXT,
-exact_duplicate_id INT,
-near_duplicate_id INT,
-PRIMARY KEY(review_id)
+	'''
+	CREATE TABLE IF NOT EXISTS reviews
+	(
+	review_id INT not null AUTO_INCREMENT,
+	user_id VARCHAR(25),
+	product_id VARCHAR(20),
+	score FLOAT(2),
+	time DATE,
+	helpfullness INT,
+	nb_helpfullness INT,
+	summary VARCHAR(255),
+	text LONGTEXT,
+	PRIMARY KEY(review_id)
+	)
+	;
+	'''
 )
-;
-''')
 
 TABLES['users'] = (
- '''
- CREATE TABLE IF NOT EXISTS users
- (
-    user_id VARCHAR(25),
-    nb_duplicates INT,
-    nb_bursts INT,
-    PRIMARY KEY(user_id)
- );
-'''
+	 '''
+	 CREATE TABLE IF NOT EXISTS users
+	 (
+	    user_id VARCHAR(25),
+	    username VARCHAR(50),
+	    nb_duplicates INT,
+	    nb_bursts INT,
+	    PRIMARY KEY(user_id)
+	 );
+	'''
 )
 
 TABLES['products'] = (
+	 '''
+	 CREATE TABLE IF NOT EXISTS products
+	 (
+	    product_id VARCHAR(20),
+	    nb_duplicates INT,
+	    nb_bursts INT,
+	    PRIMARY KEY(product_id)
+	 );
+	'''
+)
+
+TABLES['simil_id'] = (
+	 '''
+	 CREATE TABLE IF NOT EXISTS simil_id
+	 (
+	    review_id INT,
+	    cos_simil_id DOUBLE,
+	    PRIMARY KEY(review_id)
+	 );
+	'''
+)
+
+TABLES['lexicon'] = (
  '''
- CREATE TABLE IF NOT EXISTS products
+ CREATE TABLE IF NOT EXISTS lexicon
  (
-    product_id VARCHAR(20),
-    nb_duplicates INT,
-    nb_bursts INT,
-    PRIMARY KEY(product_id)
+    word_id INT not null AUTO_INCREMENT,
+    word TEXT,
+    PRIMARY KEY(word_id)
  );
 '''
 )
