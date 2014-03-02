@@ -1,6 +1,8 @@
-package tools;
+package tools.eaters;
 
 import java.util.ArrayList;
+
+import tools.LettersCount;
 
 import interfaces.Eater;
 
@@ -15,7 +17,7 @@ public class ReviewVectorCreator implements Eater {
 		this.w = lexique.getShingleSize();
 	}
 
-	public void eat(int id,String text) {
+	public void eat(int id,String text) throws Exception{
 
 		reviews.add(new LettersCount(lexique.getLexicon(), id, w, text));
 

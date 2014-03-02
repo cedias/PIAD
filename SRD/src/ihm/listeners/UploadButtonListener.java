@@ -6,10 +6,11 @@ import ihm.componants.DBFileChooser;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+
 import tasks.FindNearDuplicatesTask;
 import tasks.LoadDataTask;
-import tools.LexiconCreator;
-import tools.ReviewVectorCreator;
+import tools.eaters.LexiconCreator;
+import tools.eaters.ReviewVectorCreator;
 
 public class UploadButtonListener implements ActionListener {
 

@@ -2,8 +2,8 @@ package mains;
 
 import tasks.FindNearDuplicatesTask;
 import tasks.LoadDataTask;
-import tools.LexiconCreator;
-import tools.ReviewVectorCreator;
+import tools.eaters.LexiconCreator;
+import tools.eaters.ReviewVectorCreator;
 
 public class UploadDataLexRev {
 

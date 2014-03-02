@@ -1,6 +1,8 @@
-package tools;
+package tools.eaters;
 
 import java.util.HashMap;
+
+import tools.Tools;
 
 import interfaces.Eater;
 import interfaces.Feeder;
@@ -15,7 +17,7 @@ public class LexiconCreator implements Feeder,Eater {
 		this.w = w;
 	}
 
-	public void eat(int id,String text) {
+	public void eat(int id,String text) throws Exception {
 		Tools.toHashShingles(text, w, lexicon);
 
 		if(e!=null){
