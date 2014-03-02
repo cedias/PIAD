@@ -1,4 +1,4 @@
-package mains;
+package test;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -8,7 +8,6 @@ import java.util.Collections;
 import java.util.HashMap;
 
 import tasks.FindNearDuplicatesExhaustiveTask;
-import tasks.FindNearDuplicatesHeuristicTask;
 import tools.LettersCount;
 import tools.Tools;
 

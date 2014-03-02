@@ -72,7 +72,7 @@ TABLES['lexicon'] = (
  CREATE TABLE IF NOT EXISTS lexicon
  (
     word_id INT not null AUTO_INCREMENT,
-    word TEXT,
+    number INT Unique,
     PRIMARY KEY(word_id)
  );
 '''
