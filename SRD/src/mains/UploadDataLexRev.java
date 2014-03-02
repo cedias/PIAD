@@ -1,7 +1,7 @@
 package mains;
 
+import old.LoadDataTask;
 import tasks.FindNearDuplicatesTask;
-import tasks.LoadDataTask;
 import tools.eaters.LexiconCreator;
 import tools.eaters.ReviewVectorCreator;
 

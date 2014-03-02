@@ -1,4 +1,4 @@
-package tasks;
+package old;
 
 import interfaces.Eater;
 import interfaces.Feeder;

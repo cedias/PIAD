@@ -22,12 +22,10 @@ public class ReviewSQL {
 		 * 6:	nb_helpfullness
 		 * 7:	summary
 		 * 8:	text
-		 * 9:	exact_duplicate_id
-		 * 10:	near_duplicate_id
 		 */
 		String sql ="INSERT INTO `amazon`.`reviews` "
-				+"(`review_id`, `user_id`, `product_id`, `score`, `time`, `helpfullness`, `nb_helpfullness`, `summary`, `text`, `exact_duplicate_id`,`near_duplicate_id`)"
-				+"VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+				+"(`review_id`, `user_id`, `product_id`, `score`, `time`, `helpfullness`, `nb_helpfullness`, `summary`, `text`)"
+				+"VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?);";
 
 
 			PreparedStatement st = c.prepareStatement(sql);
@@ -46,8 +44,8 @@ public class ReviewSQL {
 
 
 
-	public static void insertReviewBatchExactDupe(PreparedStatement st, String uid, String pid, float score, String time, int help
-				,int nbHelp, String summary, String text, int dupeId) throws ClassNotFoundException, SQLException{
+	public static void insertReviewBatch(PreparedStatement st, String uid, String pid, float score, String time, int help
+				,int nbHelp, String summary, String text) throws ClassNotFoundException, SQLException{
 
 			st.setString(1, uid);
 			st.setString(2, pid);
@@ -57,12 +55,6 @@ public class ReviewSQL {
 			st.setInt(6,nbHelp);
 			st.setString(7,summary);
 			st.setString(8,text);
-			st.setNull(10, Types.INTEGER);
-
-			if(dupeId!=0)
-				st.setInt(9,dupeId);
-			else
-				st.setNull(9, Types.INTEGER);
 
 			st.addBatch();
 	}

@@ -1,4 +1,4 @@
-package mains;
+package upload;
 
 import ihm.MainFrame;
 import javax.swing.UIManager;
