@@ -1,12 +1,13 @@
-package ihm;
+package upload.ihm;
 
-import ihm.componants.DBConfig;
-import ihm.componants.DBFileChooser;
-import ihm.listeners.UploadButtonListener;
 
 import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+
+import upload.ihm.componants.DBConfig;
+import upload.ihm.componants.DBFileChooser;
+import upload.ihm.listeners.UploadButtonListener;
 
 
 

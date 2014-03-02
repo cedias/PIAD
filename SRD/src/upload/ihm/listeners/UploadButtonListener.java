@@ -1,11 +1,11 @@
-package ihm.listeners;
+package upload.ihm.listeners;
 
-import ihm.componants.DBConfig;
-import ihm.componants.DBFileChooser;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import upload.UploadDataTask;
+import upload.ihm.componants.DBConfig;
+import upload.ihm.componants.DBFileChooser;
 
 public class UploadButtonListener implements ActionListener {
 
