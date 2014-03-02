@@ -71,9 +71,9 @@ TABLES['lexicon'] = (
  '''
  CREATE TABLE IF NOT EXISTS lexicon
  (
-    word_id INT not null AUTO_INCREMENT,
-    number INT Unique,
-    PRIMARY KEY(word_id)
+    word_hash INT not null,
+    number INT not null Unique,
+    PRIMARY KEY(word_hash)
  );
 '''
 )
