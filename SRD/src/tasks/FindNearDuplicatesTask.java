@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.HashMap;
 
 import threads.NearDupesMemThread;
+import tools.DBBuffer;
 import tools.LettersCount;
 import tools.Tools;
 import database.DB;
@@ -19,7 +20,6 @@ public class FindNearDuplicatesTask implements Runnable {
 	private final int win;
 	private final double sim;
 	private final int nGramSize;
-	private final String filename;
 	HashMap<String,Integer> lexicon;
 
 
@@ -34,44 +34,42 @@ public class FindNearDuplicatesTask implements Runnable {
 	@Override
 	public void run() {
 		try{
-
-
+			final String sql = "SELECT review_id, text FROM `reviews` WHERE exact_dup_id IS NULL ORDER BY cos_simil_ident DESC";
+			
+			NearDupesMemThread th1;
+			Connection conn = DB.getConnection();
+			UpdateReviews up = new UpdateReviews(conn);
+			
 			Connection stream = DB.getConnection();
 			ResultSet reviewStream = DB.getStreamingResultSet(sql, stream);
-
-				NearDupesMemThread th1;
-				NearDupesMemThread th2;
-				NearDupesMemThread th3;
-				NearDupesMemThread th4;
-				Connection conn = DB.getConnection();
-				UpdateReviews up = new UpdateReviews(conn);
-
-
-				/*Searching for dupes*/
-				for(int i=0;i<reviews.size();i++)
-				{
-					th1 = new NearDupesMemThread(reviews, i,up, win, sim);
-					th1.start();
-					i++;
-					th2 = new NearDupesMemThread(reviews, i,up,win, sim);
-					th2.start();
-					i++;
-					th3 = new NearDupesMemThread(reviews, i,up, win, sim);
-					th3.start();
-					i++;
-					th4 = new NearDupesMemThread(reviews, i,up, win, sim);
-					th4.start();
-
-					th1.join();
-					th2.join();
-					th3.join();
-					th4.join();
-
-					if(i%1001==0)
-						System.out.println(i);
+			ArrayList<LettersCount> vectors= new ArrayList<LettersCount>();
+			LettersCount lc;
+			DBBuffer<LettersCount> buffer = new DBBuffer<>(50000);
+			int currentLC = 0;
+			
+			for(int i=0;i<10000;i++){
+				th1 = new NearDupesMemThread(lexicon, i, up, win, sim);
+				th1.run();
+				System.out.println(i);
+			}
+			
+			/*
+			while(reviewStream.next()){
+				int reviewId = reviewStream.getInt(1);
+				String normText = Tools.normalize(reviewStream.getString(2));
+				lc = new LettersCount(lexicon, reviewId, nGramSize, normText);
+				vectors.add(lc);
+				
+				if(currentLC+win <= vectors.size()){
+					th1 = new NearDupesMemThread(vectors, currentLC, up, win, sim);
+					th1.run();
 				}
-
-				up.flushBatch();
+				
+				
+			}
+			*/
+			
+				
 				conn.close();
 
 		} catch(Exception e){
