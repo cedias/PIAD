@@ -1,6 +1,8 @@
 package ihm;
 
 
+import ihm.listeners.CosSimListener;
+import ihm.listeners.ExactDuplicateListener;
 import ihm.listeners.LexiconButtonListener;
 
 import java.awt.GridLayout;
@@ -16,7 +18,9 @@ import upload.ihm.listeners.UploadButtonListener;
 public class MainWindow extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private final JButton uploadButton = new JButton("Build Lexicon");
+	private final JButton lexiconButton = new JButton("Build Lexicon");
+	private final JButton exactDuplicates = new JButton("Find Exact Duplicates");
+	private final JButton cosSim = new JButton("Build CosSim");
 
 
 
@@ -36,8 +40,14 @@ public class MainWindow extends JFrame {
 	}
 
 	private void addFrames() {
-		this.add(uploadButton);
-		this.uploadButton.addActionListener(new LexiconButtonListener());
+		this.add(lexiconButton);
+		this.lexiconButton.addActionListener(new LexiconButtonListener());
+		
+		this.add(exactDuplicates);
+		this.exactDuplicates.addActionListener(new ExactDuplicateListener());
+		
+		this.add(cosSim);
+		this.cosSim.addActionListener(new CosSimListener());
 
 	}
 

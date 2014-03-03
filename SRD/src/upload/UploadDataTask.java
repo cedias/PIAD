@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 
 import java.util.Scanner;
 import database.DB;
-import database.ReviewSQL;
+import database.sql.ReviewSQL;
 
 public class UploadDataTask implements Runnable {
 

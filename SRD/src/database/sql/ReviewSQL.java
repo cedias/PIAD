@@ -1,10 +1,9 @@
-package database;
+package database.sql;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.sql.Types;
 
 /**
  * Static Methods to Insert or Update Reviews

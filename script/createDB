@@ -25,6 +25,9 @@ TABLES['reviews'] = (
 	nb_helpfullness INT,
 	summary VARCHAR(255),
 	text LONGTEXT,
+	exact_dup_id INT,
+	near_dup_id INT,
+	cos_simil_ident DOUBLE,
 	PRIMARY KEY(review_id)
 	)
 	;
@@ -56,27 +59,6 @@ TABLES['products'] = (
 	'''
 )
 
-TABLES['simil_id'] = (
-	 '''
-	 CREATE TABLE IF NOT EXISTS simil_id
-	 (
-	    review_id INT,
-	    cos_simil_id DOUBLE,
-	    PRIMARY KEY(review_id)
-	 );
-	'''
-)
-
-TABLES['lexicon'] = (
- '''
- CREATE TABLE IF NOT EXISTS lexicon
- (
-    word_hash INT not null,
-    number INT not null Unique,
-    PRIMARY KEY(word_hash)
- );
-'''
-)
 
 
 

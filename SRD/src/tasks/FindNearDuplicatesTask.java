@@ -3,6 +3,7 @@ package tasks;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -19,67 +20,24 @@ public class FindNearDuplicatesTask implements Runnable {
 	private final double sim;
 	private final int nGramSize;
 	private final String filename;
-	HashMap<String,Integer> lexique;
-	ArrayList<LettersCount> reviews;
+	HashMap<String,Integer> lexicon;
 
 
-	public FindNearDuplicatesTask(int win, double sim, int nGramSize, String filename) {
+	public FindNearDuplicatesTask(int win, double sim, int nGramSize, HashMap<String,Integer> lexicon) {
 		super();
 		this.win = win;
 		this.sim = sim;
 		this.nGramSize = nGramSize;
-		this.filename = filename;
-	}
-
-	public FindNearDuplicatesTask(int win, double sim, int nGramSize, HashMap<String,Integer> lexique,ArrayList<LettersCount> reviews ) {
-		super();
-		this.win = win;
-		this.sim = sim;
-		this.nGramSize = nGramSize;
-		this.lexique = lexique;
-		this.reviews = reviews;
-		this.filename = "";
+		this.lexicon = lexicon;
 	}
 
 	@Override
 	public void run() {
 		try{
 
-			/*creates lexicon*/
-			if(lexique == null){
-				this.lexique = new HashMap<String,Integer>();
-				Tools.populateLexicon(filename, lexique, nGramSize);
 
-			}
-
-			/*create vectors*/
-			if(reviews == null){
-
-				this.reviews = new ArrayList<LettersCount>();
-				BufferedReader br = new BufferedReader(new FileReader(filename));
-				String line;
-				LettersCount lc;
-				while((line=br.readLine())!=null){
-
-					String[] data = line.split(":->:");
-					final int id = Integer.parseInt(data[0]);
-
-					line = Tools.normalize(data[1]);
-					lc = new LettersCount(lexique,id, nGramSize,line);
-					reviews.add(lc);
-					lc=null;
-				}
-
-				br.close();
-			}
-			System.out.println("lex size:"+lexique.size());
-			System.out.println("vect size:"+reviews.size());
-			/*Starts here with constructor N°2*/
-
-				/*sorting*/
-				Collections.sort(reviews);
-
-				System.out.println("loading done - searching");
+			Connection stream = DB.getConnection();
+			ResultSet reviewStream = DB.getStreamingResultSet(sql, stream);
 
 				NearDupesMemThread th1;
 				NearDupesMemThread th2;
