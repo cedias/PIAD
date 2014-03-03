@@ -17,6 +17,7 @@ import database.UpdateReviews;
 
 public class FindNearDuplicatesTask implements Runnable {
 
+	private static final int MAXLC = 50000;
 	private final int win;
 	private final double sim;
 	private final int nGramSize;
@@ -34,9 +35,13 @@ public class FindNearDuplicatesTask implements Runnable {
 	@Override
 	public void run() {
 		try{
+			System.out.println("-----Start ND--------");
 			final String sql = "SELECT review_id, text FROM `reviews` WHERE exact_dup_id IS NULL ORDER BY cos_simil_ident DESC";
 			
 			NearDupesMemThread th1;
+			NearDupesMemThread th2;
+			NearDupesMemThread th3;
+			NearDupesMemThread th4;
 			Connection conn = DB.getConnection();
 			UpdateReviews up = new UpdateReviews(conn);
 			
@@ -44,32 +49,47 @@ public class FindNearDuplicatesTask implements Runnable {
 			ResultSet reviewStream = DB.getStreamingResultSet(sql, stream);
 			ArrayList<LettersCount> vectors= new ArrayList<LettersCount>();
 			LettersCount lc;
-			DBBuffer<LettersCount> buffer = new DBBuffer<>(50000);
+			
 			int currentLC = 0;
 			
-			for(int i=0;i<10000;i++){
-				th1 = new NearDupesMemThread(lexicon, i, up, win, sim);
-				th1.run();
-				System.out.println(i);
-			}
 			
-			/*
-			while(reviewStream.next()){
-				int reviewId = reviewStream.getInt(1);
-				String normText = Tools.normalize(reviewStream.getString(2));
-				lc = new LettersCount(lexicon, reviewId, nGramSize, normText);
-				vectors.add(lc);
+			while(currentLC<100000){
 				
-				if(currentLC+win <= vectors.size()){
-					th1 = new NearDupesMemThread(vectors, currentLC, up, win, sim);
-					th1.run();
+				System.out.println("---FetchingBuffer---");
+				while(reviewStream.next() && vectors.size()<MAXLC){
+					int reviewId = reviewStream.getInt(1);
+					String normText = Tools.normalize(reviewStream.getString(2));
+					lc = new LettersCount(lexicon, reviewId, nGramSize, normText);
+					vectors.add(lc);
+					if(vectors.size()%10000==0)
+					System.out.println(vectors.size());
 				}
+				//MAXLC in vectors
+				System.out.println("---LookingForDupes---");
+				for(int i=0;i<MAXLC-win;i=i+4){
+					th1 = new NearDupesMemThread(vectors, i, up, win, sim);
+					th1.start();
+					th2 = new NearDupesMemThread(vectors, i+1, up, win, sim);
+					th2.start();
+					th3 = new NearDupesMemThread(vectors, i+2, up, win, sim);
+					th3.start();
+					th4 = new NearDupesMemThread(vectors, i+3, up, win, sim);
+					th4.start();
+					th1.join();
+					th2.join();
+					th3.join();
+					th4.join();
+					currentLC+=4;
+					if(currentLC%100==0)
+						System.out.println(currentLC);
+				}
+				System.out.println("---CopyingBuffer---");
+				vectors = new ArrayList<LettersCount>(vectors.subList(MAXLC-win, MAXLC-1));
 				
 				
 			}
-			*/
 			
-				
+				up.flushBatch();
 				conn.close();
 
 		} catch(Exception e){

@@ -16,56 +16,45 @@ import tools.Tools;
 
 public class NearDupesMemThread extends Thread {
 
-	ArrayList<LettersCount> reviews;
-	final int offset;
-	UpdateReviews up;
-	int window;
-	double simil;
-	private final String sql = "SELECT review_id, text FROM `reviews` WHERE exact_dup_id IS NULL ORDER BY cos_simil_ident DESC LIMIT ?,?;";
-	private int nGram;
-	private HashMap<String, Integer> lexicon;
+		ArrayList<LettersCount> reviews;
+		final int index;
+		UpdateReviews up;
+		int window;
+		double simil;
 
 
 
-	public NearDupesMemThread(HashMap<String, Integer> lexicon,final int offset, UpdateReviews up, int window,double simil) {
-		this.lexicon = lexicon;
-		this.offset = offset;
-		this.up = up;
-		this.window = window;
-		this.simil = simil;
-	}
+		public NearDupesMemThread(ArrayList<LettersCount> reviews,final int index, UpdateReviews up, int window,double simil) {
+			this.reviews = reviews;
+			this.index = index;
+			this.up = up;
+			this.window = window;
+			this.simil = simil;
+		}
 
-	public void run(){
-		 try{
-			 Connection conn = DB.getConnection();
-			 PreparedStatement st = DB.getStreamingStatement(sql, conn);
-			 st.setInt(1, offset);
-			 st.setInt(2, window);
-			 ResultSet stream = st.executeQuery();
-			 stream.next();
-			 int origId = stream.getInt(1);
-			 LettersCount origLC = new LettersCount(lexicon,nGram, origId,Tools.normalize(stream.getString(2)));
-			 
-			 
-			 while(stream.next()){
-				 int dupeId = stream.getInt(1);
-				 LettersCount dupeLC = new LettersCount(lexicon,nGram, origId,Tools.normalize(stream.getString(2)));
-				 
-				 if(origLC.cosSimil(dupeLC) >= simil)
-				 {
-					System.out.println("dupe: "+origId+"-"+dupeId);
+		public void run(){
+			 try{
+				 if(index>=reviews.size())
+					 return;
+
+
+				 LettersCount lc2;
+				 LettersCount lc = reviews.get(index);
+
+				 int max = (index+window<reviews.size())? index+window : reviews.size();
+
+				 for(int i=index+1;i<max;i++){
+					lc2 = reviews.get(i);
+
+					if(lc.cosSimil(reviews.get(i)) >= simil)
+						 up.addNearDuplicate(lc.getId(), lc2.getId());
 				 }
-			 }
-			 
-			 
 
-			 
-			 
-			 conn.close();
-		 }catch(Exception e){
-			System.out.println("[THREAD] ERROR:"+e.getMessage());
+			 }catch(Exception e){
+				System.out.println("[THREAD] ERROR:"+e.getMessage());
+			 }
 		 }
-	 }
+
 
 
 }

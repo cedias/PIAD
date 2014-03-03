@@ -11,7 +11,7 @@ public class NearDuplicates {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		int win = 700;
+		int win = 100;
 		double sim = 0.9;
 		int nGramSize = 1;
 		HashMap<String, Integer> lexicon =  new HashMap<String,Integer>();
