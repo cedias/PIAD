@@ -1,17 +1,9 @@
 package threads;
 
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.HashMap;
-
-import database.DB;
 import database.UpdateReviews;
-
 import tools.LettersCount;
-import tools.Tools;
 
 
 public class NearDupesMemThread extends Thread {

@@ -26,8 +26,6 @@ public class CosSimilBuild implements Runnable {
 	public void run() {
 		
 			try {
-				
-				int count = 0;
 				Connection conn = DB.getConnection();
 				conn.setAutoCommit(false);
 				Connection stream = DB.getConnection();
@@ -38,17 +36,11 @@ public class CosSimilBuild implements Runnable {
 				while(reviewStream.next()){
 					int reviewId = reviewStream.getInt(1);
 					String normText = Tools.normalize(reviewStream.getString(2));
-					LettersCount lc = new LettersCount(lexicon, reviewId,nGramSize ,normText);
-					double cosSimil = lc.cosSimilIdent();
-					CosSimSQL.insertBatchCosSimil(st, reviewId, cosSimil);
 					
-					if(count%1000==0){
-						System.out.println(count);
-						st.executeBatch();
-					}
-						
-					count++;
+					double cosSimil = new LettersCount(lexicon, reviewId,nGramSize ,normText).cosSimilIdent();
+					CosSimSQL.insertBatchCosSimil(st, reviewId, cosSimil);
 				}
+				
 				st.executeBatch();
 				conn.commit();
 				conn.close();

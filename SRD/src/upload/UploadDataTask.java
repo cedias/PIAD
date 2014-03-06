@@ -81,9 +81,6 @@ public class UploadDataTask implements Runnable {
 			if(id%1000==0 && i==0){
 				System.out.println(id);
 				st.executeBatch();
-
-				if(id%100000==0)
-					conn.commit();
 			}
 		}
 
@@ -93,7 +90,7 @@ public class UploadDataTask implements Runnable {
 		sc.close();
 		System.out.println("Loading Finished");
 		return;
-
+		
 		}catch(Exception e){
 			System.out.println("EXCEPTION upload task:");
 			System.out.println(e.getMessage());

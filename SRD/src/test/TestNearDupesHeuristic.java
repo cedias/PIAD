@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
-import tasks.FindNearDuplicatesExhaustiveTask;
 import tools.LettersCount;
 import tools.Tools;
 

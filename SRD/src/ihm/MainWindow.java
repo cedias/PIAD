@@ -9,16 +9,13 @@ import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-import upload.ihm.componants.DBConfig;
-import upload.ihm.componants.DBFileChooser;
-import upload.ihm.listeners.UploadButtonListener;
 
 
 
 public class MainWindow extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private final JButton lexiconButton = new JButton("Build Lexicon");
+	private final JButton nearDuplicates = new JButton("Find near Duplicates");
 	private final JButton exactDuplicates = new JButton("Find Exact Duplicates");
 	private final JButton cosSim = new JButton("Build CosSim");
 
@@ -40,14 +37,16 @@ public class MainWindow extends JFrame {
 	}
 
 	private void addFrames() {
-		this.add(lexiconButton);
-		this.lexiconButton.addActionListener(new LexiconButtonListener());
-		
 		this.add(exactDuplicates);
 		this.exactDuplicates.addActionListener(new ExactDuplicateListener());
 		
 		this.add(cosSim);
 		this.cosSim.addActionListener(new CosSimListener());
+		
+		/*needs cosSim*/
+		this.add(nearDuplicates);
+		this.exactDuplicates.addActionListener(new ExactDuplicateListener());
+		
 
 	}
 

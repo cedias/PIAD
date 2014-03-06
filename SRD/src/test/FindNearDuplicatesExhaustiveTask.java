@@ -1,4 +1,4 @@
-package tasks;
+package test;
 
 import java.util.ArrayList;
 import tools.LettersCount;

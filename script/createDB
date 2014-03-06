@@ -23,7 +23,7 @@ TABLES['reviews'] = (
 	time DATE,
 	helpfullness INT,
 	nb_helpfullness INT,
-	summary VARCHAR(255),
+	summary TEXT,
 	text LONGTEXT,
 	exact_dup_id INT,
 	near_dup_id INT,

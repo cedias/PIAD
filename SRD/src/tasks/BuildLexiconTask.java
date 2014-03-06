@@ -24,18 +24,13 @@ public class BuildLexiconTask implements Runnable {
 		
 			try {
 				
-				int count = 0;
 				Connection stream = DB.getConnection();
 				ResultSet reviews = DB.getStreamingResultSet(sql, stream);
 				
 				while(reviews.next()){
 					String normText = Tools.normalize(reviews.getString(1));
 					Tools.toHashShingles(normText, nGramSize, lexicon);
-					
-					if(count%1000==0)
-						System.out.println(count);
 						
-					count++;
 				}
 				
 				stream.close();
