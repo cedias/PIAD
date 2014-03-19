@@ -1,23 +1,19 @@
-package tasks;
+package upload;
 
-import interfaces.Eater;
-import interfaces.Feeder;
 
 import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.util.HashMap;
-import java.util.Scanner;
-import tools.Tools;
-import database.DB;
-import database.ReviewSQL;
 
-public class LoadDataTask implements Runnable, Feeder {
+import java.util.Scanner;
+import database.DB;
+import database.sql.ReviewSQL;
+
+public class UploadDataTask implements Runnable {
 
 	String filename;
-	Eater e;
 
-	public LoadDataTask(String filename) {
+	public UploadDataTask(String filename) {
 		this.filename=filename;
 	}
 
@@ -26,15 +22,12 @@ public class LoadDataTask implements Runnable, Feeder {
 
 		try{
 		Scanner sc = new Scanner(new File(filename));
-		HashMap<String,Integer> reviews = new HashMap<String,Integer>();
-
 
 		String line = "";
 		String[] data = new String[10];
 		String[] help;
 		int i = 0;
 		int id = 1;
-		int idDupe = 0;
 		Connection conn = DB.getConnection();
 		conn.setAutoCommit(false);
 		PreparedStatement st = ReviewSQL.getInsertReviewStatement(conn);
@@ -62,25 +55,11 @@ public class LoadDataTask implements Runnable, Feeder {
 				 *data[8]: Review summary
 				 *data[9]: Review text
 				 */
-				String normText = Tools.normalize(data[9]);
-				if(reviews.containsKey(normText))
-				{
-					idDupe = reviews.get(normText);
-				}
-				else
-				{
-					reviews.put(normText, id);
-					idDupe=0;
-
-					if(e != null){
-						e.eat(id,normText);
-					}
-
-				}
+				
 
 				help = data[5].split("/");
 
-				ReviewSQL.insertReviewBatchExactDupe(
+				ReviewSQL.insertReviewBatch(
 						st,
 						data[3],
 						data[0],
@@ -89,8 +68,7 @@ public class LoadDataTask implements Runnable, Feeder {
 						Integer.parseInt(help[0]),
 						Integer.parseInt(help[1]),
 						data[8],
-						data[9],
-						idDupe
+						data[9]
 				);
 
 				if(sc.hasNextLine()){
@@ -103,9 +81,6 @@ public class LoadDataTask implements Runnable, Feeder {
 			if(id%1000==0 && i==0){
 				System.out.println(id);
 				st.executeBatch();
-
-				if(id%100000==0)
-					conn.commit();
 			}
 		}
 
@@ -115,18 +90,12 @@ public class LoadDataTask implements Runnable, Feeder {
 		sc.close();
 		System.out.println("Loading Finished");
 		return;
-
+		
 		}catch(Exception e){
 			System.out.println("EXCEPTION upload task:");
 			System.out.println(e.getMessage());
 			e.printStackTrace();
 		}
-
-	}
-
-	@Override
-	public void registerEater(Eater e) {
-	 this.e = e;
 
 	}
 }

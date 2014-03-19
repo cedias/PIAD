@@ -1,8 +1,9 @@
-package mains;
+package upload;
 
-import ihm.MainFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+
+import upload.ihm.MainFrame;
 
 public class IHMmain {
 

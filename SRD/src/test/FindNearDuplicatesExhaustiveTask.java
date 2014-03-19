@@ -1,52 +1,49 @@
-package tasks;
+package test;
 
 import java.util.ArrayList;
 import tools.LettersCount;
 
-public class FindNearDuplicatesHeuristicTask implements Runnable {
+public class FindNearDuplicatesExhaustiveTask implements Runnable {
 	
 	private final double sim;
-	private final int win;
 	public volatile int nbDup;
 	private ArrayList<LettersCount> reviews;
 	
-	
 
-	public FindNearDuplicatesHeuristicTask(double sim,int win, ArrayList<LettersCount> reviews) {
+	public FindNearDuplicatesExhaustiveTask(double sim, ArrayList<LettersCount> reviews) {
 		super();
 		this.sim = sim;
-		this.win = win;
 		this.reviews = reviews;
 	}
 
 	@Override
 	public void run() {
 		try{
+		int count = 0;
 		
-			LettersCount lc;
-			LettersCount lc2;
+		LettersCount lc;
+		LettersCount lc2;
+		
 			
 			
-			int count = 0;
 			/*Searching for dupes*/
 			for(int i=0;i<reviews.size();i++)
 			{
 				lc = reviews.get(i);
-				int max = (i+win<reviews.size())? i+win : reviews.size();
-				
-				for(int j=i+1;j<max;j++)
+				for(int j=i+1;j<reviews.size();j++)
 				{
 					lc2 = reviews.get(j);
 					if(lc2.cosSimil(lc) >= sim && i!=j){
-						//System.out.printf("[H] ids: (%d;%d) =>  list place: (%d;%d) => cosSimilIdent(%f;%f)\n",
-							//	lc.getId(), lc2.getId(), i,j , lc.cosSimilIdent(), lc2.cosSimilIdent());
+					//	System.out.printf("[E] ids: (%d;%d) =>  list place: (%d;%d) => cosSimilIdent(%f;%f)\n",
+						//		lc.getId(), lc2.getId(), i,j , lc.cosSimilIdent(), lc2.cosSimilIdent());
 						count++;
 					}
-					
 				}
+				//if(i%1000==0)
+					//System.out.printf("[E] number: %d \n",i);
 			}
 			
-			System.out.println("["+win+"]Heuristic search: "+count+ " duplicates");
+			System.out.println("Exhaustive search: "+count+ " duplicates");
 			this.nbDup = count;
 			
 		} catch(Exception e){

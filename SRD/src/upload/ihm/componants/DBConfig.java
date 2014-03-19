@@ -1,4 +1,4 @@
-package ihm.componants;
+package upload.ihm.componants;
 
 import java.awt.FlowLayout;
 import javax.swing.JComponent;
