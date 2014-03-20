@@ -54,6 +54,7 @@ TABLES['products'] = (
 	 CREATE TABLE IF NOT EXISTS products
 	 (
 	    product_id VARCHAR(20),
+	    product_name TEXT,
 	    nb_duplicates INT,
 	    nb_bursts INT,
 	    reliability_score DOUBLE,

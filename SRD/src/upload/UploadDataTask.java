@@ -7,7 +7,9 @@ import java.sql.PreparedStatement;
 
 import java.util.Scanner;
 import database.DB;
+import database.sql.ProductSQL;
 import database.sql.ReviewSQL;
+import database.sql.UserSQL;
 
 public class UploadDataTask implements Runnable {
 
@@ -28,9 +30,16 @@ public class UploadDataTask implements Runnable {
 		String[] help;
 		int i = 0;
 		int id = 1;
-		Connection conn = DB.getConnection();
-		conn.setAutoCommit(false);
-		PreparedStatement st = ReviewSQL.getInsertReviewStatement(conn);
+		
+		Connection connReviews = DB.getConnection();
+		Connection connUsers = DB.getConnection();
+		Connection connProducts = DB.getConnection();
+		connReviews.setAutoCommit(false);
+		connUsers.setAutoCommit(false);
+		connProducts.setAutoCommit(false);
+		PreparedStatement stReviews = ReviewSQL.getInsertReviewStatement(connReviews);
+		PreparedStatement stProducts = ProductSQL.getInsertReviewStatement(connProducts);
+		PreparedStatement stUsers = UserSQL.getInsertReviewStatement(connUsers);
 
 
 		while(sc.hasNextLine()){
@@ -38,6 +47,7 @@ public class UploadDataTask implements Runnable {
 			try {
 				data[i] = line.split("^*/*: ")[1];
 			} catch (ArrayIndexOutOfBoundsException e) {
+				/*field empty*/
 				data[i] = "unknown";
 			}
 			i++;
@@ -60,7 +70,7 @@ public class UploadDataTask implements Runnable {
 				help = data[5].split("/");
 
 				ReviewSQL.insertReviewBatch(
-						st,
+						stReviews,
 						data[3],
 						data[0],
 						Float.parseFloat(data[6]),
@@ -70,6 +80,10 @@ public class UploadDataTask implements Runnable {
 						data[8],
 						data[9]
 				);
+				
+				ProductSQL.insertProductBatch(stProducts,data[0],data[1]);
+				UserSQL.insertUserBatch(stUsers,data[3],data[4]);
+				
 
 				if(sc.hasNextLine()){
 					sc.nextLine();
@@ -80,14 +94,27 @@ public class UploadDataTask implements Runnable {
 
 			if(id%1000==0 && i==0){
 				System.out.println(id);
-				st.executeBatch();
+				stReviews.executeBatch();
+				stUsers.executeBatch();
+				stProducts.executeBatch();
 			}
 		}
 
-		st.executeBatch();
-		conn.commit();
-		st.close();
+		stReviews.executeBatch();
+		stProducts.executeBatch();
+		stUsers.executeBatch();
+		
+		
+		connReviews.commit();
+		connUsers.commit();
+		connProducts.commit();
+		
+		stReviews.close();
+		stProducts.close();
+		stUsers.close();
+		
 		sc.close();
+		
 		System.out.println("Loading Finished");
 		return;
 		
