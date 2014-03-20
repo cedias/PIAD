@@ -28,6 +28,7 @@ TABLES['reviews'] = (
 	exact_dup_id INT,
 	near_dup_id INT,
 	cos_simil_ident DOUBLE,
+	honesty_score DOUBLE,
 	PRIMARY KEY(review_id)
 	)
 	;
@@ -42,6 +43,7 @@ TABLES['users'] = (
 	    username VARCHAR(50),
 	    nb_duplicates INT,
 	    nb_bursts INT,
+	    trust_score DOUBLE,
 	    PRIMARY KEY(user_id)
 	 );
 	'''
@@ -54,6 +56,7 @@ TABLES['products'] = (
 	    product_id VARCHAR(20),
 	    nb_duplicates INT,
 	    nb_bursts INT,
+	    reliability_score DOUBLE,
 	    PRIMARY KEY(product_id)
 	 );
 	'''
