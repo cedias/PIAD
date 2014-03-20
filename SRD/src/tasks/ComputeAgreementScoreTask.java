@@ -1,23 +1,23 @@
 package tasks;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import tools.Agreement;
+import tools.AgreementComputer;
+
 import database.DB;
+import database.sql.AgreementSQL;
 
 public class ComputeAgreementScoreTask implements Runnable {
 
 	int windowSize;
 	double diffScore;
-	final String sql = "SELECT r.review_id, r.product_id, r.score, u.trust_score FROM reviews r, users u where r.user_id = u.user_id order by r.product_id";
-	ArrayList<Integer> reviews_id = new ArrayList<Integer>();
-	ArrayList<String> products_id = new ArrayList<String>();
-	ArrayList<Float> scores = new ArrayList<Float>();
-	ArrayList<Double> trustinesses = new ArrayList<Double>();
-	int nbReviews = 0;
-	
+	final String sql = "SELECT r.review_id, r.product_id, r.score, u.trust_score FROM reviews r, users u where r.user_id = u.user_id order by r.product_id;";
+	AgreementComputer agComp = null;
 	
 	public ComputeAgreementScoreTask(int windowSize, double diffScore) {
 		super();
@@ -27,18 +27,24 @@ public class ComputeAgreementScoreTask implements Runnable {
 
 	public void run() {
 		
-		
+		int count=0;
 		int review_id;
 		String product_id;
 		float score;
 		double trustiness;
-		
-		
-		
-		Connection c;
+		Connection stream;
+		Connection upstream;
+		PreparedStatement upstreamStatement;
+		ArrayList<Agreement> reviews;
 		try {
-			c = DB.getConnection();
-			ResultSet rs= DB.getStreamingResultSet(sql, c);
+			stream = DB.getConnection();
+			upstream = DB.getConnection();
+			upstream.setAutoCommit(false);
+			upstreamStatement = AgreementSQL.getUpdateAgreementScoreStatement(upstream);
+			
+			
+			
+			ResultSet rs= DB.getStreamingResultSet(sql, stream);
 
 			/*
 			 *1:review_id : int
@@ -46,6 +52,13 @@ public class ComputeAgreementScoreTask implements Runnable {
 			 *3:review_score :float 
 			 *4:user_trust_score : double 
 			 */
+			//init
+			rs.next();
+			review_id = rs.getInt(1);
+			product_id = rs.getString(2);
+			score = rs.getFloat(3);
+			trustiness = rs.getDouble(4);
+			agComp = new AgreementComputer(product_id, windowSize, diffScore);
 			
 			while(rs.next()){
 				
@@ -53,9 +66,27 @@ public class ComputeAgreementScoreTask implements Runnable {
 				product_id = rs.getString(2);
 				score = rs.getFloat(3);
 				trustiness = rs.getDouble(4);
-				compute(review_id,product_id,score,trustiness);
 				
+				if(!product_id.equals(agComp.getProductId()))
+				{
+					reviews = agComp.compute();
+					count = upload(count, upstreamStatement, reviews);
+					agComp = new AgreementComputer(product_id, windowSize, diffScore);
+				}
+				
+				agComp.addAgreement(new Agreement(review_id, score, trustiness));
+					
+			
 			}
+			
+			reviews = agComp.compute();
+			upload(count, upstreamStatement, reviews);
+			upstreamStatement.executeBatch();
+			upstream.commit();
+			upstreamStatement.close();
+			upstream.close();
+			rs.close();
+			stream.close();
 			
 		
 		} catch (ClassNotFoundException | SQLException e) {
@@ -63,11 +94,20 @@ public class ComputeAgreementScoreTask implements Runnable {
 			e.printStackTrace();
 		}	
 	}
-	
-	
-	private void compute(int rId,String pId, float score, double trust){
-			if(rId != cu
+
+	private int upload(int count, PreparedStatement upstreamStatement, ArrayList<Agreement> reviews) throws SQLException {
 		
+		for(Agreement ag: reviews){
+			AgreementSQL.updateAgreementScoreBatch(upstreamStatement, ag.getAgreement(), ag.getReviewId());
+			count++;
+			
+			if(count>=1000){
+				upstreamStatement.executeBatch();
+				count=0;
+			}
+		}
+		return count;
 	}
+	
 
 }
