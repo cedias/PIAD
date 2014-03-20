@@ -21,11 +21,12 @@ public class ReviewSQL {
 		 * 6:	nb_helpfullness
 		 * 7:	summary
 		 * 8:	text
+		 * 9:	agreement_score
+		 * 10:	honesty_score
 		 */
 		String sql ="INSERT INTO `amazon`.`reviews` "
-				+"(`review_id`, `user_id`, `product_id`, `score`, `time`, `helpfullness`, `nb_helpfullness`, `summary`, `text`)"
-				+"VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?);";
-
+				+ "(`user_id`, `product_id`, `score`, `time`, `helpfullness`, `nb_helpfullness`, `summary`, `text`, `agreement_score`, `honesty_score`) " 
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
 			PreparedStatement st = c.prepareStatement(sql);
 			return st;
@@ -54,6 +55,8 @@ public class ReviewSQL {
 			st.setInt(6,nbHelp);
 			st.setString(7,summary);
 			st.setString(8,text);
+			st.setDouble(9,1);
+			st.setDouble(10,1);
 
 			st.addBatch();
 	}

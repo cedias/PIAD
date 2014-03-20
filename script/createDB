@@ -28,6 +28,7 @@ TABLES['reviews'] = (
 	exact_dup_id INT,
 	near_dup_id INT,
 	cos_simil_ident DOUBLE,
+	agreement_score DOUBLE,
 	honesty_score DOUBLE,
 	PRIMARY KEY(review_id)
 	)
