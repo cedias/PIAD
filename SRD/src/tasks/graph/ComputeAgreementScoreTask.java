@@ -1,4 +1,4 @@
-package tasks;
+package tasks.graph;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
