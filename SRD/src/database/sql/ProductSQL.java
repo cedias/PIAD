@@ -19,7 +19,7 @@ public class ProductSQL {
 		 */
 		
 		String sql ="INSERT IGNORE INTO `amazon`.`products` " +
-				"(`product_id`,`product_name`, `nb_duplicates`, `nb_bursts`, `reliability_score`)" +
+				"(`product_id`,`product_name`, `nb_duplicates`, `nb_bursts`)" +
 				" VALUES (?, ?, ?, ?, ?);";
 
 
@@ -34,7 +34,6 @@ public class ProductSQL {
 		stProducts.setString(2, product_name);
 		stProducts.setInt(3, 0);
 		stProducts.setInt(4, 0);
-		stProducts.setDouble(5, 1);
 		
 		stProducts.addBatch();
 		

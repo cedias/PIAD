@@ -25,7 +25,7 @@ public class ReviewSQL {
 		 * 10:	honesty_score
 		 */
 		String sql ="INSERT INTO `amazon`.`reviews` "
-				+ "(`user_id`, `product_id`, `score`, `time`, `helpfullness`, `nb_helpfullness`, `summary`, `text`, `agreement_score`, `honesty_score`) " 
+				+ "(`user_id`, `product_id`, `score`, `time`, `helpfullness`, `nb_helpfullness`, `summary`, `text`) " 
 				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
 			PreparedStatement st = c.prepareStatement(sql);
@@ -55,9 +55,7 @@ public class ReviewSQL {
 			st.setInt(6,nbHelp);
 			st.setString(7,summary);
 			st.setString(8,text);
-			st.setDouble(9,1);
-			st.setDouble(10,1);
-
+			
 			st.addBatch();
 	}
 

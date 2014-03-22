@@ -18,7 +18,7 @@ public class UserSQL {
 		 *NB: INSERT IGNORE Statement: if key already exists, doesn't insert anything.
 		 */
 		String sql ="INSERT IGNORE INTO `amazon`.`users`" +
-				" (`user_id`, `username`, `nb_duplicates`, `nb_bursts`, `trust_score`)" +
+				" (`user_id`, `username`, `nb_duplicates`, `nb_bursts`)" +
 				" VALUES (?, ?, ?, ?, ?);";
 
 
@@ -34,7 +34,6 @@ public class UserSQL {
 			stUsers.setString(2, username);
 			stUsers.setInt(3, 0);
 			stUsers.setInt(4, 0);
-			stUsers.setDouble(5, 1);
 			
 			stUsers.addBatch();
 		
