@@ -4,7 +4,6 @@ package ihm;
 import ihm.listeners.CosSimListener;
 import ihm.listeners.ExactDuplicateListener;
 import ihm.listeners.GraphIterationListener;
-import ihm.listeners.LexiconButtonListener;
 import ihm.listeners.NearDuplicateListener;
 
 import java.awt.GridLayout;
