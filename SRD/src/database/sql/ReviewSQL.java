@@ -26,7 +26,7 @@ public class ReviewSQL {
 		 */
 		String sql ="INSERT INTO `amazon`.`reviews` "
 				+ "(`user_id`, `product_id`, `score`, `time`, `helpfullness`, `nb_helpfullness`, `summary`, `text`) " 
-				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
 
 			PreparedStatement st = c.prepareStatement(sql);
 			return st;

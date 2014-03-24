@@ -19,7 +19,7 @@ public class UserSQL {
 		 */
 		String sql ="INSERT IGNORE INTO `amazon`.`users`" +
 				" (`user_id`, `username`, `nb_duplicates`, `nb_bursts`)" +
-				" VALUES (?, ?, ?, ?, ?);";
+				" VALUES (?, ?, ?, ?);";
 
 
 			PreparedStatement st = c.prepareStatement(sql);

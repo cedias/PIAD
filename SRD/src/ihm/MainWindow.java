@@ -5,6 +5,7 @@ import ihm.listeners.CosSimListener;
 import ihm.listeners.ExactDuplicateListener;
 import ihm.listeners.GraphIterationListener;
 import ihm.listeners.LexiconButtonListener;
+import ihm.listeners.NearDuplicateListener;
 
 import java.awt.GridLayout;
 import javax.swing.JButton;
@@ -45,9 +46,9 @@ public class MainWindow extends JFrame {
 		this.add(cosSim);
 		this.cosSim.addActionListener(new CosSimListener());
 		
-		/*needs cosSim*/
+		
 		this.add(nearDuplicates);
-		this.exactDuplicates.addActionListener(new ExactDuplicateListener());
+		this.nearDuplicates.addActionListener(new NearDuplicateListener());
 		
 		
 		this.add(graph);
