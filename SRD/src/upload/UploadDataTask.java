@@ -2,14 +2,8 @@ package upload;
 
 
 import java.io.File;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-
 import java.util.Scanner;
-import database.DB;
-import database.sql.ProductSQL;
-import database.sql.ReviewSQL;
-import database.sql.UserSQL;
+
 
 public class UploadDataTask implements Runnable {
 

@@ -1,12 +1,10 @@
 package upload;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.BufferedWriter;
-import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.util.HashSet;
 
@@ -64,6 +62,7 @@ public class TextFileUpload implements Uploader {
 		new File(workingDir+"/temp/reviews.txt").delete();
 		new File(workingDir+"/temp/users.txt").delete();
 		new File(workingDir+"/temp/products.txt").delete();
+		
 		
 		
 	}
