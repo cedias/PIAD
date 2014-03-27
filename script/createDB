@@ -28,6 +28,7 @@ TABLES['reviews'] = (
 	exact_dup_id INT,
 	near_dup_id INT,
 	cos_simil_ident DOUBLE,
+	honesty_score DOUBLE DEFAULT 1.0 ,
 	PRIMARY KEY(review_id)
 	)
 	;
@@ -42,6 +43,7 @@ TABLES['users'] = (
 	    username VARCHAR(50),
 	    nb_duplicates INT,
 	    nb_bursts INT,
+	    trust_score DOUBLE DEFAULT 1.0 ,
 	    PRIMARY KEY(user_id)
 	 );
 	'''
@@ -52,8 +54,10 @@ TABLES['products'] = (
 	 CREATE TABLE IF NOT EXISTS products
 	 (
 	    product_id VARCHAR(20),
+	    product_name TEXT,
 	    nb_duplicates INT,
 	    nb_bursts INT,
+	    reliability_score DOUBLE DEFAULT 1.0,
 	    PRIMARY KEY(product_id)
 	 );
 	'''

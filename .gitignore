@@ -11,3 +11,5 @@ SRD/temp/*
 .classpath
 .settings
 .metadata
+/SRD/nbproject/private/
+/SRD/build/

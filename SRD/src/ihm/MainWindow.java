@@ -3,7 +3,8 @@ package ihm;
 
 import ihm.listeners.CosSimListener;
 import ihm.listeners.ExactDuplicateListener;
-import ihm.listeners.LexiconButtonListener;
+import ihm.listeners.GraphIterationListener;
+import ihm.listeners.NearDuplicateListener;
 
 import java.awt.GridLayout;
 import javax.swing.JButton;
@@ -18,6 +19,7 @@ public class MainWindow extends JFrame {
 	private final JButton nearDuplicates = new JButton("Find near Duplicates");
 	private final JButton exactDuplicates = new JButton("Find Exact Duplicates");
 	private final JButton cosSim = new JButton("Build CosSim");
+	private final JButton graph = new JButton("Launch Graph Iteration");
 
 
 
@@ -43,9 +45,13 @@ public class MainWindow extends JFrame {
 		this.add(cosSim);
 		this.cosSim.addActionListener(new CosSimListener());
 		
-		/*needs cosSim*/
+		
 		this.add(nearDuplicates);
-		this.exactDuplicates.addActionListener(new ExactDuplicateListener());
+		this.nearDuplicates.addActionListener(new NearDuplicateListener());
+		
+		
+		this.add(graph);
+		this.graph.addActionListener(new GraphIterationListener());
 		
 
 	}
