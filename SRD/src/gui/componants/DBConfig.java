@@ -1,11 +1,12 @@
-package upload.ihm.componants;
+package gui.componants;
 
 import java.awt.FlowLayout;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-public class DBConfig extends JComponent{
+public class DBConfig extends JPanel{
 
 	private static final long serialVersionUID = 1L;
 	private FlowLayout layout = new FlowLayout();
@@ -17,7 +18,7 @@ public class DBConfig extends JComponent{
 
 	private JTextField databaseField = new JTextField(width);
 	private JTextField userField = new JTextField(width);
-	private JTextField passField = new JTextField(width);
+	private JPasswordField passField = new JPasswordField(width);
 
 	public DBConfig(){
 		super();
@@ -25,7 +26,6 @@ public class DBConfig extends JComponent{
 	}
 
 	private void build(){
-
 		this.setLayout(layout);
 		this.add(databaseLabel);
 		this.add(databaseField);
@@ -45,7 +45,7 @@ public class DBConfig extends JComponent{
 		return userField.getText();
 	}
 	public String getPassword(){
-		return passField.getText();
+		return passField.getPassword().toString(); //Unsecure, see JPasswordField.getPassword Doc
 	}
 
 }

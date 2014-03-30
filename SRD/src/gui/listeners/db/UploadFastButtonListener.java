@@ -1,25 +1,21 @@
-package upload.ihm.listeners;
+package gui.listeners.db;
+
+import gui.componants.DBConfig;
+import gui.componants.sub.DBFileChooser;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.sql.SQLException;
-
-import upload.BatchUpload;
 import upload.TextFileUpload;
 import upload.UploadDataTask;
-import upload.ihm.componants.DBConfig;
-import upload.ihm.componants.DBFileChooser;
 
-public class UploadButtonListener2 implements ActionListener {
+public class UploadFastButtonListener implements ActionListener {
 
 	private final DBConfig conf;
 	private final DBFileChooser fc;
 
 
-	public UploadButtonListener2(DBConfig conf, DBFileChooser fc) {
+	public UploadFastButtonListener(DBConfig conf, DBFileChooser fc) {
 		super();
 		this.conf = conf;
 		this.fc = fc;

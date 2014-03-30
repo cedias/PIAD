@@ -1,4 +1,4 @@
-package upload.ihm.componants;
+package gui.componants.sub;
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;

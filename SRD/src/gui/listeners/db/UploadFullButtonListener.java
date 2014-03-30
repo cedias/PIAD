@@ -1,5 +1,8 @@
-package upload.ihm.listeners;
+package gui.listeners.db;
 
+
+import gui.componants.DBConfig;
+import gui.componants.sub.DBFileChooser;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,18 +10,16 @@ import java.sql.SQLException;
 
 import upload.BatchUpload;
 import upload.UploadDataTask;
-import upload.ihm.componants.DBConfig;
-import upload.ihm.componants.DBFileChooser;
 
-public class UploadButtonListener implements ActionListener {
+public class UploadFullButtonListener implements ActionListener {
 
 	private final DBConfig conf;
 	private final DBFileChooser fc;
 
 
-	public UploadButtonListener(DBConfig conf, DBFileChooser fc) {
+	public UploadFullButtonListener(gui.componants.DBConfig dbConf, DBFileChooser fc) {
 		super();
-		this.conf = conf;
+		this.conf = dbConf;
 		this.fc = fc;
 	}
 

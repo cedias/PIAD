@@ -1,4 +1,4 @@
-package ihm.listeners;
+package gui.listeners.db;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
