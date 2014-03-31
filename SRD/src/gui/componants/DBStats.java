@@ -7,7 +7,7 @@ public class DBStats extends JPanel {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;kn
+	private static final long serialVersionUID = 1L;
 	
 	
 

@@ -9,6 +9,7 @@ import gui.componants.OPConsole;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.io.Console;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -25,11 +26,11 @@ public class MainWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private DBConfig dbConf = new DBConfig();
 	//private JPanel dbStat = new DBStats(); TODO
-	//private JPanel console = new OPConsole(); TODO
+	private OPConsole console = new OPConsole(); 
 	private JTabbedPane operations = new JTabbedPane(JTabbedPane.TOP);
 	private JPanel dbOperations = new DBPanel(dbConf);
 	private JPanel graphOperations = new GraphPanel();
-	private JToggleButton webServerButton = new JToggleButton("Web Server");
+	//private JToggleButton webServerButton = new JToggleButton("Web Server");
 	private TitledBorder configBorder = new TitledBorder("Configuration"); 
 
 
@@ -60,10 +61,10 @@ public class MainWindow extends JFrame {
 		//this.add(dbStat); TODO 
 		this.add(operations,BorderLayout.CENTER);
 		
-		this.add(webServerButton,BorderLayout.SOUTH);
+		//this.add(webServerButton,BorderLayout.SOUTH);
 	
-		//this.add(console); TODO
-		
+		this.add(console,BorderLayout.SOUTH); 
+		console.append("Goddamned");
 		
 		
 

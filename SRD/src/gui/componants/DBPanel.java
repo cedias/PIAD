@@ -2,6 +2,8 @@ package gui.componants;
 
 
 import gui.componants.sub.DBFileChooser;
+import gui.listeners.db.ExactDuplicateListener;
+import gui.listeners.db.NearDuplicateListener;
 import gui.listeners.db.UploadFastButtonListener;
 import gui.listeners.db.UploadFullButtonListener;
 import java.awt.GridLayout;
@@ -20,7 +22,7 @@ public class DBPanel extends JPanel {
 	private final JButton uploadFullButton = new JButton("Full Upload");
 	private final JButton uploadFastButton = new JButton("Fast Upload");
 	private final JButton exactDuplicatesButton = new JButton("Find Exact Duplicates");
-	private final JButton nearDuplicatesButton = new JButton("Find Near Duplicates");kukgu
+	private final JButton nearDuplicatesButton = new JButton("Find Near Duplicates");
 	private final JButton outliersButton = new JButton("Find Outliers");
 	private final JButton productBursts = new JButton("Find Product Bursts");
 	private final JButton userBursts = new JButton("Find User Bursts");
@@ -56,15 +58,20 @@ public class DBPanel extends JPanel {
 		bottom.setLayout(new GridLayout(5,1));
 		bottom.add(exactDuplicatesButton);
 		bottom.add(nearDuplicatesButton);
+		/*
 		bottom.add(outliersButton);
 		bottom.add(productBursts);
 		bottom.add(userBursts);
+		*/
 		
 	}
 	
 	private void bind() {
 		uploadFullButton.addActionListener(new UploadFullButtonListener(dbConf, dbFile));
 		uploadFastButton.addActionListener(new UploadFastButtonListener(dbConf, dbFile));
+		exactDuplicatesButton.addActionListener(new ExactDuplicateListener());
+		nearDuplicatesButton.addActionListener(new NearDuplicateListener());
+		//outliersButton.addActionListener();
 		
 	}
 
