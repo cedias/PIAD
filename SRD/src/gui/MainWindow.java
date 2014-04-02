@@ -2,9 +2,9 @@ package gui;
 
 import gui.componants.DBConfig;
 import gui.componants.DBPanel;
-import gui.componants.DBStats;
 import gui.componants.GraphPanel;
 import gui.componants.OPConsole;
+import gui.componants.sub.DBStats;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -25,13 +25,14 @@ public class MainWindow extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private DBConfig dbConf = new DBConfig();
-	//private JPanel dbStat = new DBStats(); TODO
+
 	private OPConsole console = new OPConsole(); 
 	private JTabbedPane operations = new JTabbedPane(JTabbedPane.TOP);
 	private JPanel dbOperations = new DBPanel(dbConf);
 	private JPanel graphOperations = new GraphPanel();
-	//private JToggleButton webServerButton = new JToggleButton("Web Server");
+
 	private TitledBorder configBorder = new TitledBorder("Configuration"); 
+	private TitledBorder consoleBorder = new TitledBorder("Console"); 
 
 
 	public MainWindow(){
@@ -58,14 +59,12 @@ public class MainWindow extends JFrame {
 	private void addFrames() {
 		this.add(dbConf,BorderLayout.NORTH);
 		dbConf.setBorder(configBorder);
-		//this.add(dbStat); TODO 
+	
 		this.add(operations,BorderLayout.CENTER);
 		
-		//this.add(webServerButton,BorderLayout.SOUTH);
-	
-		this.add(console,BorderLayout.SOUTH); 
-		console.append("Goddamned");
-		
+
+		this.add(console,BorderLayout.SOUTH);
+		console.setBorder(consoleBorder);
 		
 
 	}

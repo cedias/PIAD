@@ -9,16 +9,16 @@ import javax.swing.JSlider;
 public class GraphConfig extends JPanel{
 
 	/**
-	 * 
+	 * Graph Config SubPanel
 	 */
 	private static final long serialVersionUID = 1L;
 	
 	
-	private JLabel nbIterLabel = new JLabel("Number of Algorithm Iterations:");
+	private JLabel nbIterLabel = new JLabel("Number of Algorithm Iterations");
 	private JSlider nbIter = new JSlider(1, 10,4);
 	private JLabel windowLabel = new JLabel("Agreement's Window Size");
 	private JSlider window = new JSlider(1, 50,25);
-	private JLabel diffLabel = new JLabel("Agreement's score difference");
+	private JLabel diffLabel = new JLabel("Agreement's Score Difference");
 	private JSlider diff = new JSlider(1,5);
 	
 	public GraphConfig(){

@@ -37,7 +37,7 @@ public class ReviewSQL {
 		 * 1: near_duplicate_id
 		 * 2: review_id
 		 */
-		String sql = "UPDATE  `amazon`.`reviews` SET  `near_dup_id` = ? WHERE  `reviews`.`review_id` =?;";
+		String sql = "UPDATE  `amazon`.`reviews` SET  `near_dup_id` = ?, honesty_score = 0 WHERE  `reviews`.`review_id` =?;";
 		PreparedStatement st = c.prepareStatement(sql);
 		return st;
 	}

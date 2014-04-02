@@ -72,9 +72,9 @@ public class TextFileUpload implements Uploader {
 		
 		Connection conn = DB.getConnection();
 		String workingDir = System.getProperty("user.dir");
-		conn.createStatement().executeQuery("LOAD DATA LOCAL INFILE \'"+workingDir+"/temp/reviews.txt\' INTO TABLE reviews (`user_id`, `product_id`, `score`, @var1, `helpfullness`, `nb_helpfullness`, `summary`, `text`) SET time = FROM_UNIXTIME(@var1) ");
-		conn.createStatement().executeQuery("LOAD DATA LOCAL INFILE \'"+workingDir+"/temp/users.txt\' INTO TABLE users (`user_id`, `username`) ");
-		conn.createStatement().executeQuery("LOAD DATA LOCAL INFILE \'"+workingDir+"/temp/products.txt\' INTO TABLE products (`product_id`, `product_name`) ");
+		conn.createStatement().executeQuery("LOAD DATA LOCAL INFILE \'"+workingDir+"/temp/reviews.txt\' INTO TABLE reviews FIELDS ESCAPED BY '¤' (`user_id`, `product_id`, `score`, @var1, `helpfullness`, `nb_helpfullness`, `summary`, `text`) SET time = FROM_UNIXTIME(@var1) ");
+		conn.createStatement().executeQuery("LOAD DATA LOCAL INFILE \'"+workingDir+"/temp/users.txt\' INTO TABLE users FIELDS ESCAPED BY '¤' (`user_id`, `username`) ");
+		conn.createStatement().executeQuery("LOAD DATA LOCAL INFILE \'"+workingDir+"/temp/products.txt\' INTO TABLE products FIELDS ESCAPED BY '¤' (`product_id`, `product_name`) ");
 		conn.close();
 		
 		

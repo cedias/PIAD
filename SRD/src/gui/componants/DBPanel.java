@@ -2,10 +2,10 @@ package gui.componants;
 
 
 import gui.componants.sub.DBFileChooser;
-import gui.listeners.db.ExactDuplicateListener;
-import gui.listeners.db.NearDuplicateListener;
+import gui.componants.sub.DBStats;
 import gui.listeners.db.UploadFastButtonListener;
 import gui.listeners.db.UploadFullButtonListener;
+
 import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -13,7 +13,11 @@ import javax.swing.border.TitledBorder;
 
 
 
-
+/**
+ * Database Tab Panel
+ * @author charles
+ *
+ */
 public class DBPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -21,16 +25,12 @@ public class DBPanel extends JPanel {
 	private final DBFileChooser dbFile = new DBFileChooser();
 	private final JButton uploadFullButton = new JButton("Full Upload");
 	private final JButton uploadFastButton = new JButton("Fast Upload");
-	private final JButton exactDuplicatesButton = new JButton("Find Exact Duplicates");
-	private final JButton nearDuplicatesButton = new JButton("Find Near Duplicates");
-	private final JButton outliersButton = new JButton("Find Outliers");
-	private final JButton productBursts = new JButton("Find Product Bursts");
-	private final JButton userBursts = new JButton("Find User Bursts");
 	private final JPanel top = new JPanel();
 	private final JPanel bottom = new JPanel();
 	private TitledBorder uploadBorder = new TitledBorder("Upload");
-	private TitledBorder initBorder = new TitledBorder("Init");
+	private TitledBorder statBorder = new TitledBorder("Statistics");
 	private DBConfig dbConf;
+	private DBStats dbStats = new DBStats();
 
 
 	public DBPanel(DBConfig dbConf){
@@ -45,33 +45,24 @@ public class DBPanel extends JPanel {
 		
 		/*-- TOP --*/
 		this.add(top);
-		top.setBorder(uploadBorder);
-		top.setLayout(new GridLayout(3,1));
+		top.setBorder(statBorder);
+		top.setLayout(new GridLayout(1,1));
 		
-		top.add(dbFile);
-		top.add(uploadFullButton);
-		top.add(uploadFastButton);
+		top.add(dbStats);
 		
 		/*-- BOTTOM --*/
 		this.add(bottom);
-		bottom.setBorder(initBorder);
-		bottom.setLayout(new GridLayout(5,1));
-		bottom.add(exactDuplicatesButton);
-		bottom.add(nearDuplicatesButton);
-		/*
-		bottom.add(outliersButton);
-		bottom.add(productBursts);
-		bottom.add(userBursts);
-		*/
+		bottom.setBorder(uploadBorder);
+		bottom.setLayout(new GridLayout(3,1));
+		bottom.add(dbFile);
+		bottom.add(uploadFullButton);
+		bottom.add(uploadFastButton);
 		
 	}
 	
 	private void bind() {
 		uploadFullButton.addActionListener(new UploadFullButtonListener(dbConf, dbFile));
 		uploadFastButton.addActionListener(new UploadFastButtonListener(dbConf, dbFile));
-		exactDuplicatesButton.addActionListener(new ExactDuplicateListener());
-		nearDuplicatesButton.addActionListener(new NearDuplicateListener());
-		//outliersButton.addActionListener();
 		
 	}
 
