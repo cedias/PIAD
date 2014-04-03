@@ -9,6 +9,7 @@ public class UploadDataTask implements Runnable {
 
 	String filename;
 	Uploader uploader;
+	
 
 	public UploadDataTask(String filename,Uploader uploader) {
 		this.filename=filename;
@@ -24,17 +25,35 @@ public class UploadDataTask implements Runnable {
 		String line = "";
 		String[] data = new String[10];
 		int i = 0;
-		
+		int nb = 0;
+		int skipCpt = 0;
+		boolean skip = false;
 
 
 		while(sc.hasNextLine()){
 			line = sc.nextLine();
+			
+			
 			try {
-				data[i] = line.split("^*/*: ")[1];
-			} catch (ArrayIndexOutOfBoundsException e) {
-				/*field empty*/
-				data[i] = "unknown";
+				//System.out.println("readin'");
+				data[i] = line.split("^[\\w]*/[\\w]*:\\s")[1];
+				
+				if(data[i].equals("unknown"))
+					throw new UnknownFieldException();
+				
+			} catch (ArrayIndexOutOfBoundsException | UnknownFieldException e) {
+				/*Skipping review if field empty*/
+				
+					while(i<9){
+						sc.nextLine(); //skip left lines
+						i++;
+					}
+					
+					skipCpt++;
+					skip=true;
 			}
+			
+			
 			i++;
 
 			if(i==10){
@@ -51,8 +70,8 @@ public class UploadDataTask implements Runnable {
 				 *data[9]: Review text
 				 */
 				
-
-				int nb = uploader.upload(data);
+				if(!skip)
+					 nb = uploader.upload(data);
 				
 				if(nb%1000 ==0 && nb!=0)
 					System.out.println(nb); //TODO remove
@@ -61,12 +80,14 @@ public class UploadDataTask implements Runnable {
 				if(sc.hasNextLine()){
 					sc.nextLine();
 					i=0;
+					skip = false;
 				}
 			}
 
 		}
 		sc.close();
 		uploader.close(); //flush and closes uploader
+		System.out.println("Uploaded "+nb+" reviews, skipped "+skipCpt+" reviews.");
 		return;
 		
 		}catch(Exception e){

@@ -1,4 +1,4 @@
-package upload.ihm.componants;
+package gui.componants.sub;
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -10,6 +10,11 @@ import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JTextField;
 
+/**
+ * FileChoosing SubPanel
+ * @author charles
+ *
+ */
 public class DBFileChooser extends JComponent{
 
 	private static final long serialVersionUID = 1L;

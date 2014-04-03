@@ -17,31 +17,31 @@ public class Tools {
 
 	}
 
-		public static Map<String,Integer> toHashShingles(String text,int w, Map<String,Integer> resultSet){
-			String[] array = text.split(" ");
+	public static Map<String,Integer> toHashShingles(String text,int w, Map<String,Integer> resultSet){
+		String[] array = text.split(" ");
 
-			for(int i=0;i<=array.length-w;i++){
-				String[] temp = Arrays.copyOfRange(array, i, i+w);
+		for(int i=0;i<=array.length-w;i++){
+			String[] temp = Arrays.copyOfRange(array, i, i+w);
 
-				String toHash =temp[0];
-				for(int j=1;j<temp.length;j++){
-					toHash = toHash.concat(" ").concat(temp[j]);
-				}
-
-				if(!resultSet.containsKey(toHash))
-					resultSet.put(toHash, resultSet.size());
-
+			String toHash =temp[0];
+			for(int j=1;j<temp.length;j++){
+				toHash = toHash.concat(" ").concat(temp[j]);
 			}
 
+			if(!resultSet.containsKey(toHash))
+				resultSet.put(toHash, resultSet.size());
 
-			return resultSet;
+		}
+
+
+		return resultSet;
 
 		}
 
 		public static void populateLexicon(final String filename,final Map<String,Integer> lexique, final int nGramSize) throws IOException{
-		BufferedReader br = new BufferedReader(new FileReader(filename));
-		String line;
-		String data[];
+			BufferedReader br = new BufferedReader(new FileReader(filename));
+			String line;
+			String data[];
 
 			/*creates lexicon*/
 			while((line=br.readLine())!=null){

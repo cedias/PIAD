@@ -1,11 +1,11 @@
-package upload;
+package mains;
+
+import gui.MainWindow;
 
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import upload.ihm.MainFrame;
-
-public class IHMmain {
+public class FullMain {
 
 	/**
 	 * @param args
@@ -23,8 +23,8 @@ public class IHMmain {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		MainFrame mainFrame = new MainFrame();
-		mainFrame.setVisible(true);
+		MainWindow window = new MainWindow();
+		window.setVisible(true);
 
 
 	}

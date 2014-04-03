@@ -39,5 +39,25 @@ public class ProductSQL {
 		
 	}
 
+	public static PreparedStatement getUpdateNBBurstsStatement(Connection c) throws SQLException {
+		/*
+		 *1.Product Nb_Bursts
+		 *2.Product ID
+		 */
+		
+		String sql = "UPDATE  `amazon`.`products` SET  `nb_bursts` = ? WHERE  `products`.`product_id` =  ?";
+		PreparedStatement st = c.prepareStatement(sql);
+		
+		return st;
+	}
+
+	public static void addBatchNBBurstsUpdate(PreparedStatement st,
+			String product_id, int nb_bursts) throws SQLException {
+		
+		st.setInt(1, nb_bursts);
+		st.setString(2, product_id);
+		st.addBatch();
+	}
+
 
 }
