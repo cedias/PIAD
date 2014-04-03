@@ -25,7 +25,6 @@ public class GraphPanel extends JPanel {
 	private TitledBorder initBorder = new TitledBorder("Graph Initialisation");
 	private TitledBorder graphBorder = new TitledBorder("Graph Parameters");
 	private JPanel top = new JPanel();
-	private JPanel middle = new JPanel();
 	private JPanel bottom = new JPanel();
 	
 	
@@ -37,19 +36,21 @@ public class GraphPanel extends JPanel {
 	}
 
 	private void build() {
-		this.setLayout(new GridLayout(3,1));
+		this.setLayout(new GridLayout(2,1));
 		this.add(top);
-		this.add(middle);
 		this.add(bottom);
 		
 		top.setBorder(initBorder);
+		top.setLayout(new GridLayout());
 		top.add(gi);
 		
-		middle.setBorder(graphBorder);
-		middle.add(gc);
-		
-		bottom.setLayout(new FlowLayout(FlowLayout.LEFT));
+		bottom.setBorder(graphBorder);
+		bottom.setLayout(new FlowLayout());
+		bottom.add(gc);
 		bottom.add(graphButton);
+		
+	
+		
 		
 	}
 	

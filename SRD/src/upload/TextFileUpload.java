@@ -60,8 +60,8 @@ public class TextFileUpload implements Uploader {
 
 	@Override
 	public void flush() throws Exception {
-		
-
+		//no need;
+		return;
 	}
 
 	@Override
