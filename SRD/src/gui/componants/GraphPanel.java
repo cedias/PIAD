@@ -5,6 +5,7 @@ import gui.componants.sub.GraphInit;
 import gui.listeners.graph.GraphIterationListener;
 
 
+import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 
@@ -41,16 +42,13 @@ public class GraphPanel extends JPanel {
 		this.add(bottom);
 		
 		top.setBorder(initBorder);
-		top.setLayout(new GridLayout());
-		top.add(gi);
+		top.setLayout(new BorderLayout());
+		top.add(gi,BorderLayout.CENTER);
 		
 		bottom.setBorder(graphBorder);
 		bottom.setLayout(new FlowLayout());
 		bottom.add(gc);
 		bottom.add(graphButton);
-		
-	
-		
 		
 	}
 	
