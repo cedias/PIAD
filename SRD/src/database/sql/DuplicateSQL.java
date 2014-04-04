@@ -11,7 +11,7 @@ public class DuplicateSQL {
 		 * 1:	dupe_id
 		 * 2:	orig_id
 		 */
-		String sql ="UPDATE  `amazon`.`reviews` SET  `exact_dup_id` =  ? , `honesty_score`=-1 WHERE  `reviews`.`review_id` =?;";
+		String sql ="UPDATE reviews SET exact_dup_id=  ? , honesty_score = -1 WHERE review_id = ?;";
 
 
 			PreparedStatement st = c.prepareStatement(sql);

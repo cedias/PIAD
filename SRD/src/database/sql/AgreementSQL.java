@@ -13,7 +13,7 @@ public class AgreementSQL {
 		 * 1:	agreement score
 		 * 2:	review id
 		 */
-		String sql = "UPDATE  `amazon`.`reviews` SET  `agreement_score` = ? WHERE  `reviews`.`review_id` =?;";
+		String sql = "UPDATE reviews SET  agreement_score = ? WHERE  review_id =?;";
 
 
 		PreparedStatement st = c.prepareStatement(sql);

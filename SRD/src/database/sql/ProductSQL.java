@@ -18,7 +18,7 @@ public class ProductSQL {
 		 *NB: INSERT IGNORE Statement: if key already exists, doesn't insert anything.
 		 */
 		
-		String sql ="INSERT IGNORE INTO `amazon`.`products` " +
+		String sql ="INSERT IGNORE INTO products " +
 				"(`product_id`,`product_name`, `nb_duplicates`, `nb_bursts`)" +
 				" VALUES (?, ?, ?, ?);";
 
@@ -45,7 +45,7 @@ public class ProductSQL {
 		 *2.Product ID
 		 */
 		
-		String sql = "UPDATE  `amazon`.`products` SET  `nb_bursts` = ? WHERE  `products`.`product_id` =  ?";
+		String sql = "UPDATE  products SET  `nb_bursts` = ? WHERE  `products`.`product_id` =  ?";
 		PreparedStatement st = c.prepareStatement(sql);
 		
 		return st;

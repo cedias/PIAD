@@ -3,12 +3,7 @@ package tasks;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.Date;
-
 import threads.ProductBurstThread;
-import tools.BurstComputer;
-import upload.Uploader;
-
 import database.DB;
 import database.UpdateProducts;
 

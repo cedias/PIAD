@@ -29,13 +29,12 @@ public class DBPanel extends JPanel {
 	private final JPanel bottom = new JPanel();
 	private TitledBorder uploadBorder = new TitledBorder("Upload");
 	private TitledBorder statBorder = new TitledBorder("Statistics");
-	private DBConfig dbConf;
+
 	private DBStats dbStats = new DBStats();
 
 
-	public DBPanel(DBConfig dbConf){
+	public DBPanel(){
 		super();
-		this.dbConf = dbConf;
 		build();
 		bind();
 	}
@@ -61,8 +60,8 @@ public class DBPanel extends JPanel {
 	}
 	
 	private void bind() {
-		uploadFullButton.addActionListener(new UploadFullButtonListener(dbConf, dbFile));
-		uploadFastButton.addActionListener(new UploadFastButtonListener(dbConf, dbFile));
+		uploadFullButton.addActionListener(new UploadFullButtonListener(dbFile));
+		uploadFastButton.addActionListener(new UploadFastButtonListener(dbFile));
 		
 	}
 

@@ -21,7 +21,6 @@ public class TextFileUpload implements Uploader {
 	StringBuilder productsBuilder = new StringBuilder();
 	StringBuilder usersBuilder = new StringBuilder();
 	private final String fs = "\t";
-	private final String ls = "\n";
 	
 	public TextFileUpload() throws IOException{
 		this.writerReviews = new PrintWriter(new BufferedWriter(new FileWriter("temp/reviews.txt")));

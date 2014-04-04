@@ -8,7 +8,7 @@ public class CosSimSQL {
 
 	public static PreparedStatement getInsertCosSimilStatement(Connection conn) throws SQLException{
 		
-		final String sql = 	"UPDATE  `amazon`.`reviews` SET  `cos_simil_ident` =  ? WHERE  `reviews`.`review_id` =?;";
+		final String sql = 	"UPDATE reviews SET  cos_simil_ident =  ? WHERE  review_id =?;";
 		
 		return conn.prepareStatement(sql);
 	}

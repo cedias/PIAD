@@ -17,7 +17,7 @@ public class UserSQL {
 		 *
 		 *NB: INSERT IGNORE Statement: if key already exists, doesn't insert anything.
 		 */
-		String sql ="INSERT IGNORE INTO `amazon`.`users`" +
+		String sql ="INSERT IGNORE INTO users" +
 				" (`user_id`, `username`, `nb_duplicates`, `nb_bursts`)" +
 				" VALUES (?, ?, ?, ?);";
 

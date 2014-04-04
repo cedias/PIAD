@@ -8,7 +8,7 @@ public class TrustinessSQL {
 	
 	public static PreparedStatement getUpdateTrustinessStatement(Connection conn) throws SQLException{
 		
-	final String sql = 	"UPDATE  `amazon`.`users` SET  `trust_score` =? WHERE  `users`.`user_id` =?;";
+	final String sql = 	"UPDATE  users SET  `trust_score` =? WHERE  `users`.`user_id` =?;";
 	return conn.prepareStatement(sql);
 	
 	}

@@ -8,7 +8,7 @@ public class HonestySQL {
 
 public static PreparedStatement getUpdateHonestyStatement(Connection conn) throws SQLException{
 		
-		final String sql = 	"UPDATE  `amazon`.`reviews` SET  `honesty_score` =  ? WHERE  `reviews`.`review_id` =?;";
+		final String sql = 	"UPDATE  reviews SET honesty_score = ? WHERE  review_id=?;";
 		
 		return conn.prepareStatement(sql);
 	}

@@ -9,7 +9,7 @@ public class ReliabilitySQL {
 	
 	public static PreparedStatement getUpdateReliabilityStatement(Connection conn) throws SQLException{
 		
-		final String sql = 	"UPDATE  `amazon`.`products` SET  `reliability_score` =? WHERE  `products`.`product_id` =?;";
+		final String sql = 	"UPDATE products SET  `reliability_score` = ? WHERE `product_id` = ?;";
 		return conn.prepareStatement(sql);
 	
 	}

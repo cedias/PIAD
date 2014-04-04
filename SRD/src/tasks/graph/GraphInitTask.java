@@ -1,7 +1,6 @@
 package tasks.graph;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import tasks.BuildLexiconTask;
 import tasks.CosSimilBuild;

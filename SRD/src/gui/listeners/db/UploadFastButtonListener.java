@@ -1,6 +1,5 @@
 package gui.listeners.db;
 
-import gui.componants.DBConfig;
 import gui.componants.sub.DBFileChooser;
 
 import java.awt.event.ActionEvent;
@@ -11,13 +10,11 @@ import upload.UploadDataTask;
 
 public class UploadFastButtonListener implements ActionListener {
 
-	private final DBConfig conf;
 	private final DBFileChooser fc;
 
 
-	public UploadFastButtonListener(DBConfig conf, DBFileChooser fc) {
+	public UploadFastButtonListener( DBFileChooser fc) {
 		super();
-		this.conf = conf;
 		this.fc = fc;
 	}
 

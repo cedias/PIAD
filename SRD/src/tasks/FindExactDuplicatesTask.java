@@ -13,7 +13,7 @@ import database.sql.DuplicateSQL;
 public class FindExactDuplicatesTask implements Runnable {
 
 	private final int nGramSize;
-	private final String sql = "SELECT  `review_id`,`text` FROM  `reviews` ";
+	private final String sql = "SELECT review_id , text FROM reviews ";
 	Map<String, Integer> lexicon = null;
 	Map<String,Integer> dupe = new HashMap<String,Integer>();
 
