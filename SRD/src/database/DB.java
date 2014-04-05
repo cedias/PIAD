@@ -9,8 +9,10 @@ import java.sql.SQLException;
 public class DB {
 
 	public static Connection getConnection() throws SQLException, ClassNotFoundException{
+		DBConfig dbConf = DBConfig.getInstance();
 		Class.forName("com.mysql.jdbc.Driver");
-		Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/amazon", "amazon", "amazon");
+		Connection connection = DriverManager
+				.getConnection("jdbc:mysql://"+dbConf.getUrl()+"/"+dbConf.getDatabase(), dbConf.getUser(),dbConf.getPass());
 		return connection;
 	}
 	

@@ -19,8 +19,8 @@ public class ProductSQL {
 		 */
 		
 		String sql ="INSERT IGNORE INTO products " +
-				"(`product_id`,`product_name`, `nb_duplicates`, `nb_bursts`)" +
-				" VALUES (?, ?, ?, ?);";
+				"(`product_id`,`product_name`)" +
+				" VALUES (?, ?);";
 
 
 			PreparedStatement st = c.prepareStatement(sql);
@@ -32,8 +32,6 @@ public class ProductSQL {
 		
 		stProducts.setString(1, product_id);
 		stProducts.setString(2, product_name);
-		stProducts.setInt(3, 0);
-		stProducts.setInt(4, 0);
 		
 		stProducts.addBatch();
 		

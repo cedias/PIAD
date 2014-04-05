@@ -38,7 +38,7 @@ public class UploadDataTask implements Runnable {
 				//System.out.println("readin'");
 				data[i] = line.split("^[\\w]*/[\\w]*:\\s")[1];
 				
-				if(data[i].equals("unknown"))
+				if( i!=2 && data[i].equals("unknown")) //price is useless
 					throw new UnknownFieldException();
 				
 			} catch (ArrayIndexOutOfBoundsException | UnknownFieldException e) {
