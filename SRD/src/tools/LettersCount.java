@@ -3,6 +3,11 @@ package tools;
 import java.util.Arrays;
 import java.util.HashMap;
 
+/**
+ * Sparse vector of ngrams.
+ * @author charles
+ *
+ */
 public class LettersCount implements Comparable<LettersCount> {
 
 	HashMap<Integer, Integer> letters;

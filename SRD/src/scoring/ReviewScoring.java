@@ -1,8 +1,12 @@
 package scoring;
 
+/**
+ * The Agreement and the Honesty formula
+ * @author charles
+ *
+ */
 public class ReviewScoring {
 
-	//nonsense ^^
 	public static double computeReviewAgreement(Double agreement){
 		return (2/(1+Math.pow(Math.E,(agreement*-1))))-1;
 	}

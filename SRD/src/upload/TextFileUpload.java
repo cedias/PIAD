@@ -10,6 +10,11 @@ import java.util.HashSet;
 
 
 import database.DB;
+/**
+ * Uploader using temp files and LOAD DATA LOCAL INFILE
+ * @author charles
+ *
+ */
 public class TextFileUpload implements Uploader {
 	int count=0;
 	PrintWriter writerReviews;

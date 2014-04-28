@@ -1,5 +1,10 @@
 package upload;
 
+/**
+ * Uploader: uploads to database.
+ * @author charles
+ *
+ */
 public interface Uploader {
 
 	/**

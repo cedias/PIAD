@@ -10,6 +10,11 @@ import tools.Tools;
 import database.DB;
 import database.sql.DuplicateSQL;
 
+/**
+ * Find exact duplicates from the database
+ * @author charles
+ *
+ */
 public class FindExactDuplicatesTask implements Runnable {
 
 	private final int nGramSize;

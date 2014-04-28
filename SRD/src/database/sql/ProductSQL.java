@@ -3,9 +3,19 @@ package database.sql;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-
+/**
+ * Product PreparedStatement class
+ * @author charles
+ *
+ */
 public class ProductSQL {
 
+	/**
+	 * Get insert product PreparedStatement
+	 * @param c
+	 * @return
+	 * @throws SQLException
+	 */
 	public static PreparedStatement getInsertReviewStatement(
 			Connection c) throws SQLException {
 		
@@ -27,6 +37,13 @@ public class ProductSQL {
 			return st;
 	}
 
+	/**
+	 * Configure insert Product PreparedStatement
+	 * @param stProducts
+	 * @param product_id
+	 * @param product_name
+	 * @throws SQLException
+	 */
 	public static void insertProductBatch(PreparedStatement stProducts,
 			String product_id, String product_name) throws SQLException {
 		
@@ -37,6 +54,12 @@ public class ProductSQL {
 		
 	}
 
+	/**
+	 * get update product nb bursts PreparedStatement
+	 * @param c
+	 * @return
+	 * @throws SQLException
+	 */
 	public static PreparedStatement getUpdateNBBurstsStatement(Connection c) throws SQLException {
 		/*
 		 *1.Product Nb_Bursts
@@ -49,6 +72,13 @@ public class ProductSQL {
 		return st;
 	}
 
+	/**
+	 * configure update product nb bursts PreparedStatement
+	 * @param st
+	 * @param product_id
+	 * @param nb_bursts
+	 * @throws SQLException
+	 */
 	public static void addBatchNBBurstsUpdate(PreparedStatement st,
 			String product_id, int nb_bursts) throws SQLException {
 		

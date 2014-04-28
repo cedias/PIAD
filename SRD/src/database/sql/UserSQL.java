@@ -4,8 +4,19 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+/**
+ * User SQL PreparedStatement
+ * @author charles
+ *
+ */
 public class UserSQL {
 
+	/**
+	 * get insert user PreparedStatement
+	 * @param c
+	 * @return
+	 * @throws SQLException
+	 */
 	public static PreparedStatement getInsertReviewStatement(
 			Connection c) throws SQLException {
 		/*
@@ -25,6 +36,13 @@ public class UserSQL {
 		
 	}
 
+	/**
+	 * configure and add to batch insert user PreparedStatement
+	 * @param stUsers
+	 * @param user_id
+	 * @param username
+	 * @throws SQLException
+	 */
 	public static void insertUserBatch(PreparedStatement stUsers,
 			String user_id, String username) throws SQLException {
 		

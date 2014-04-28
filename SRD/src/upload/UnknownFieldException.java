@@ -1,5 +1,10 @@
 package upload;
 
+/**
+ * If a field is empty
+ * @author charles
+ *
+ */
 public class UnknownFieldException extends Exception {
 
 	/**

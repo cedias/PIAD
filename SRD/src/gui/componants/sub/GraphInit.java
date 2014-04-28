@@ -8,7 +8,11 @@ import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
-
+/**
+ * Graph init subpanel (with parameters)
+ * @author charles
+ *
+ */
 public class GraphInit extends JPanel {
 
 	/**

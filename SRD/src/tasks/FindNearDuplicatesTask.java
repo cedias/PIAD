@@ -12,6 +12,11 @@ import tools.Tools;
 import database.DB;
 import database.UpdateReviews;
 
+/**
+ * Finds near duplicates in the database.
+ * @author charles
+ *
+ */
 public class FindNearDuplicatesTask implements Runnable {
 
 	private static final int MAXLC = 100000;

@@ -14,6 +14,11 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
+/**
+ * Graph tab panel
+ * @author charles
+ *
+ */
 public class GraphPanel extends JPanel {
 
 	/**

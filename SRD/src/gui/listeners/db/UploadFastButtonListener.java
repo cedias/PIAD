@@ -8,6 +8,11 @@ import java.io.IOException;
 import upload.TextFileUpload;
 import upload.UploadDataTask;
 
+/**
+ * ActionListener for fast upload button
+ * @author charles
+ *
+ */
 public class UploadFastButtonListener implements ActionListener {
 
 	private final DBFileChooser fc;

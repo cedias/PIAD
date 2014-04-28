@@ -10,6 +10,12 @@ import java.sql.SQLException;
 import upload.BatchUpload;
 import upload.UploadDataTask;
 
+
+/**
+ * ActionListener for normal upload button
+ * @author charles
+ *
+ */
 public class UploadFullButtonListener implements ActionListener {
 
 	private final DBFileChooser fc;

@@ -4,9 +4,19 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+/**
+ * Reliability PreparedStatement Class
+ * @author charles
+ *
+ */
 public class ReliabilitySQL {
 
-	
+	/**
+	 * Get Update product Reliability statement
+	 * @param conn
+	 * @return
+	 * @throws SQLException
+	 */
 	public static PreparedStatement getUpdateReliabilityStatement(Connection conn) throws SQLException{
 		
 		final String sql = 	"UPDATE products SET  `reliability_score` = ? WHERE `product_id` = ?;";
@@ -14,6 +24,12 @@ public class ReliabilitySQL {
 	
 	}
 
+	/**
+	 * configure Update product Reliability statement
+	 * @param conn
+	 * @return
+	 * @throws SQLException
+	 */
 public static PreparedStatement insertBatchUpdateReliability(PreparedStatement st, double score,String product_id) throws SQLException{
 	/*
 	 * 1: reliability_score

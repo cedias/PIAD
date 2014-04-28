@@ -11,6 +11,13 @@ import java.sql.Timestamp;
  */
 public class ReviewSQL {
 
+	/**
+	 * get insert reviews statement
+	 * @param c
+	 * @return
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public static PreparedStatement getInsertReviewStatement(Connection c) throws ClassNotFoundException, SQLException{
 		/*
 		 * 1:	user_id
@@ -32,6 +39,12 @@ public class ReviewSQL {
 			return st;
 	}
 
+	/**
+	 * get update near duplicate review statement
+	 * @param c
+	 * @return
+	 * @throws SQLException
+	 */
 	public static PreparedStatement getUpdateNearDuplicateStatement(Connection c) throws SQLException{
 		/*
 		 * 1: near_duplicate_id
@@ -43,7 +56,20 @@ public class ReviewSQL {
 	}
 
 
-
+	/**
+	 * Configure insert review statement and add to batch
+	 * @param st
+	 * @param uid
+	 * @param pid
+	 * @param score
+	 * @param time
+	 * @param help
+	 * @param nbHelp
+	 * @param summary
+	 * @param text
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public static void insertReviewBatch(PreparedStatement st, String uid, String pid, float score, String time, int help
 				,int nbHelp, String summary, String text) throws ClassNotFoundException, SQLException{
 
@@ -59,7 +85,13 @@ public class ReviewSQL {
 			st.addBatch();
 	}
 
-
+	/**
+	 * configure near duplicates statement and add to batch
+	 * @param st
+	 * @param reviewId
+	 * @param duplicateId
+	 * @throws SQLException
+	 */
 	public static void addBatchNearDuplicateUpdate(PreparedStatement st, int reviewId, int duplicateId) throws SQLException{
 		st.setInt(1, duplicateId);
 		st.setInt(2, reviewId);

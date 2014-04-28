@@ -4,7 +4,9 @@ package upload;
 import java.io.File;
 import java.util.Scanner;
 
-
+/**
+ * Upload Task Class
+ */
 public class UploadDataTask implements Runnable {
 
 	String filename;
@@ -35,7 +37,6 @@ public class UploadDataTask implements Runnable {
 			
 			
 			try {
-				//System.out.println("readin'");
 				data[i] = line.split("^[\\w]*/[\\w]*:\\s")[1];
 				
 				if( i!=2 && data[i].equals("unknown")) //price is useless
@@ -73,7 +74,7 @@ public class UploadDataTask implements Runnable {
 				if(!skip)
 					 nb = uploader.upload(data);
 				
-				if(nb%1000 ==0 && nb!=0)
+				if(nb%10000 ==0 && nb!=0)
 					System.out.println(nb); //TODO remove
 				
 
