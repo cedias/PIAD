@@ -1,13 +1,9 @@
 package gui.componants.sub;
 
 import java.awt.GridLayout;
-
-import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSlider;
 import javax.swing.JTextField;
-import javax.swing.JToggleButton;
 
 /**
  * Parameters Panel for graph

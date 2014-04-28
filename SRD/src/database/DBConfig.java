@@ -25,14 +25,13 @@ public class DBConfig {
 			sc.nextLine(); //comment
 			line = sc.nextLine(); //url
 			url = line.split("=")[1];
-			System.out.println(url);
 			line = sc.nextLine(); //database
 			database = line.split("=")[1];
 			line = sc.nextLine(); //user
 			user = line.split("=")[1];
 			line = sc.nextLine(); //password
 			pass = line.split("=")[1];
-			
+			sc.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("Error in file database.conf, using defaults");
 			

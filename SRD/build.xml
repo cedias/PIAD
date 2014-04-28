@@ -34,40 +34,22 @@
         </javac>
     </target>
     <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+    <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
+        <copy todir="${ant.library.dir}">
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </copy>
+        <unzip dest="${ant.library.dir}">
+            <patternset includes="jdtCompilerAdapter.jar"/>
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </unzip>
+    </target>
+    <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
+        <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+        <antcall target="build"/>
+    </target>
     <target name="FullMain">
         <java classname="mains.FullMain" failonerror="true" fork="yes">
-            <jvmarg line="-Xms2g&#10;-XX:+UseG1GC"/>
-            <classpath refid="SRD.classpath"/>
-        </java>
-    </target>
-    <target name="UploadData">
-        <java classname="upload.UploadData" failonerror="true" fork="yes">
-            <classpath refid="SRD.classpath"/>
-        </java>
-    </target>
-    <target name="IHM">
-        <java classname="mains.IHM" failonerror="true" fork="yes">
-            <classpath refid="SRD.classpath"/>
-        </java>
-    </target>
-    <target name="testFullInit">
-        <java classname="mains.testFullInit" failonerror="true" fork="yes">
-            <jvmarg line="-Xmx8g -Xms7g"/>
-            <classpath refid="SRD.classpath"/>
-        </java>
-    </target>
-    <target name="IHMmain">
-        <java classname="upload.IHMmain" failonerror="true" fork="yes">
-            <classpath refid="SRD.classpath"/>
-        </java>
-    </target>
-    <target name="NearDuplicates">
-        <java classname="mains.NearDuplicates" failonerror="true" fork="yes">
-            <classpath refid="SRD.classpath"/>
-        </java>
-    </target>
-    <target name="ProductBurst">
-        <java classname="mains.ProductBurst" failonerror="true" fork="yes">
+            <jvmarg line="-XX:+UseG1GC"/>
             <classpath refid="SRD.classpath"/>
         </java>
     </target>

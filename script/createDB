@@ -34,7 +34,8 @@ TABLES['reviews'] = (
 	INDEX IndProd (product_id),
 	INDEX IndCossim (cos_simil_ident),
 	INDEX IndExDup (exact_dup_id),
-	INDEX IndNeDup (near_dup_id)
+	INDEX IndNeDup (near_dup_id),
+	INDEX IndHonest (honesty_score)
 	)
 	;
 	'''
@@ -47,7 +48,8 @@ TABLES['users'] = (
 	    user_id VARCHAR(25),
 	    username VARCHAR(50),
 	    trust_score DOUBLE DEFAULT 1.0 ,
-	    PRIMARY KEY(user_id)
+	    PRIMARY KEY(user_id),
+	    INDEX IndTrust (trust_score)
 	 );
 	'''
 )
@@ -60,7 +62,8 @@ TABLES['products'] = (
 	    product_name TEXT,
 	    nb_bursts INT DEFAULT 0,
 	    reliability_score DOUBLE DEFAULT 1.0,
-	    PRIMARY KEY(product_id)
+	    PRIMARY KEY(product_id),
+	    INDEX IndRel (reliability_score)
 	 );
 	'''
 )
