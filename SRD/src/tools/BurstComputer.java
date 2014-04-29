@@ -2,6 +2,12 @@ package tools;
 
 import java.util.ArrayList;
 
+
+/**
+ * BurstComputer: compute bursts based on three sigma rule.
+ * @author charles
+ *
+ */
 public class BurstComputer {
 
 	private final double avg;

@@ -4,6 +4,11 @@ import java.util.ArrayList;
 
 import scoring.ReviewScoring;
 
+/**
+ * AgreementComputer: computes the agreement of an array list of agreement
+ * @author charles
+ *
+ */
 public class AgreementComputer {
 	
 	final String productId;

@@ -9,6 +9,11 @@ import database.sql.ProductSQL;
 import database.sql.ReviewSQL;
 import database.sql.UserSQL;
 
+/**
+ * Uploader using batch of INSERT queries
+ * @author charles
+ *
+ */
 public class BatchUpload implements Uploader {
 	
 	int count = 0;

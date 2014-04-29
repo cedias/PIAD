@@ -1,7 +1,6 @@
 package gui.listeners.db;
 
 
-import gui.componants.DBConfig;
 import gui.componants.sub.DBFileChooser;
 
 import java.awt.event.ActionEvent;
@@ -11,15 +10,20 @@ import java.sql.SQLException;
 import upload.BatchUpload;
 import upload.UploadDataTask;
 
+
+/**
+ * ActionListener for normal upload button
+ * @author charles
+ *
+ */
 public class UploadFullButtonListener implements ActionListener {
 
-	private final DBConfig conf;
 	private final DBFileChooser fc;
 
 
-	public UploadFullButtonListener(gui.componants.DBConfig dbConf, DBFileChooser fc) {
+	public UploadFullButtonListener( DBFileChooser fc) {
 		super();
-		this.conf = dbConf;
+	
 		this.fc = fc;
 	}
 

@@ -1,7 +1,6 @@
 package tasks.graph;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import tasks.BuildLexiconTask;
 import tasks.CosSimilBuild;
@@ -9,6 +8,11 @@ import tasks.FindExactDuplicatesTask;
 import tasks.FindNearDuplicatesTask;
 import tasks.ProductBurstTask;
 
+/**
+ * Graph init task
+ * @author charles
+ *
+ */
 public class GraphInitTask implements Runnable {
 
 	final private boolean exactDupes;
@@ -41,11 +45,14 @@ public class GraphInitTask implements Runnable {
 		long start = System.currentTimeMillis();
 		
 		System.out.println("Exact");
+		
 		if(exactDupes)
 			new Thread(new FindExactDuplicatesTask()).start();
+		
 		System.out.println("Burst");
 		if(reviewBursts)
 			new Thread(new ProductBurstTask(minReviews,eps)).start();
+		
 		System.out.println("ND");
 		if(nearDupes){
 			HashMap<String, Integer> lexicon = new HashMap<String,Integer>(100000);
@@ -57,6 +64,14 @@ public class GraphInitTask implements Runnable {
 			new FindNearDuplicatesTask(windowND, cosSimil, nGramSize, lexicon).run();
 			
 		}
+		
+		//compute trust
+		ComputeTrustinessScoreTask trust = new ComputeTrustinessScoreTask();
+		trust.run();
+		
+		//compute reliability
+		ComputeReliabilityScoreTask rel = new ComputeReliabilityScoreTask();
+		rel.run();
 		
 		long end = System.currentTimeMillis();
 		System.out.println("end: "+(end-start)/1000);

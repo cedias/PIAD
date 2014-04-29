@@ -1,5 +1,10 @@
 package tools;
 
+/**
+ * The agreement Object
+ * @author charles
+ *
+ */
 public class Agreement{
 	final int reviewId;
 	final float score;

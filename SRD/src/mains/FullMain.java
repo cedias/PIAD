@@ -8,6 +8,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class FullMain {
 
 	/**
+	 * Classe Principale: lance le gui.
 	 * @param args
 	 */
 	public static void main(String[] args) {

@@ -4,22 +4,31 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+/**
+ * User SQL PreparedStatement
+ * @author charles
+ *
+ */
 public class UserSQL {
 
+	/**
+	 * get insert user PreparedStatement
+	 * @param c
+	 * @return
+	 * @throws SQLException
+	 */
 	public static PreparedStatement getInsertReviewStatement(
 			Connection c) throws SQLException {
 		/*
 		 *1.User id
 		 *2.User username
-		 *3.User duplicate reviews count
-		 *4.User burst count
 		 *5.User trustiness score
 		 *
 		 *NB: INSERT IGNORE Statement: if key already exists, doesn't insert anything.
 		 */
-		String sql ="INSERT IGNORE INTO `amazon`.`users`" +
-				" (`user_id`, `username`, `nb_duplicates`, `nb_bursts`)" +
-				" VALUES (?, ?, ?, ?);";
+		String sql ="INSERT IGNORE INTO users" +
+				" (`user_id`, `username`)" +
+				" VALUES (?, ?);";
 
 
 			PreparedStatement st = c.prepareStatement(sql);
@@ -27,13 +36,18 @@ public class UserSQL {
 		
 	}
 
+	/**
+	 * configure and add to batch insert user PreparedStatement
+	 * @param stUsers
+	 * @param user_id
+	 * @param username
+	 * @throws SQLException
+	 */
 	public static void insertUserBatch(PreparedStatement stUsers,
 			String user_id, String username) throws SQLException {
 		
 			stUsers.setString(1, user_id);
 			stUsers.setString(2, username);
-			stUsers.setInt(3, 0);
-			stUsers.setInt(4, 0);
 			
 			stUsers.addBatch();
 		

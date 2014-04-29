@@ -1,13 +1,20 @@
 package tools;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Map;
 
+/**
+ * Different tools, static methods only
+ * @author charles
+ *
+ */
 public class Tools {
 
+	/**
+	 * Normalize a text (remove non-word character and n-spaces
+	 * @param text
+	 * @return
+	 */
 	public static String normalize(String text){
 		text = text.toLowerCase();
 		text = text.replaceAll("[\\W]", " ");
@@ -16,7 +23,14 @@ public class Tools {
 		return text;
 
 	}
-
+	
+	/**
+	 * Return ngrams of a text
+	 * @param text
+	 * @param w
+	 * @param resultSet
+	 * @return
+	 */
 	public static Map<String,Integer> toHashShingles(String text,int w, Map<String,Integer> resultSet){
 		String[] array = text.split(" ");
 
@@ -36,21 +50,6 @@ public class Tools {
 
 		return resultSet;
 
-		}
-
-		public static void populateLexicon(final String filename,final Map<String,Integer> lexique, final int nGramSize) throws IOException{
-			BufferedReader br = new BufferedReader(new FileReader(filename));
-			String line;
-			String data[];
-
-			/*creates lexicon*/
-			while((line=br.readLine())!=null){
-				data = line.split(":->:");
-				line = Tools.normalize(data[1]);
-				Tools.toHashShingles(line, nGramSize, lexique);
-			}
-
-			br.close();
 		}
 }
 

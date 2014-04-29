@@ -6,6 +6,11 @@ import java.sql.SQLException;
 
 import database.sql.ProductSQL;
 
+/**
+ * Concurrent Update products
+ * @author charles
+ *
+ */
 public class UpdateProducts {
 
 	int count = 0;

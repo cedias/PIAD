@@ -1,14 +1,15 @@
 package gui.componants.sub;
 
 import java.awt.GridLayout;
-
-import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSlider;
 import javax.swing.JTextField;
-import javax.swing.JToggleButton;
 
+/**
+ * Parameters Panel for graph
+ * @author charles
+ *
+ */
 public class NearDupeSubPan extends JPanel {
 
 	private static final long serialVersionUID = 1L;

@@ -10,12 +10,17 @@ import tools.Tools;
 import database.DB;
 import database.sql.DuplicateSQL;
 
+/**
+ * Find exact duplicates from the database
+ * @author charles
+ *
+ */
 public class FindExactDuplicatesTask implements Runnable {
 
 	private final int nGramSize;
-	private final String sql = "SELECT  `review_id`,`text` FROM  `reviews` ";
+	private final String sql = "SELECT review_id , text FROM reviews ";
 	Map<String, Integer> lexicon = null;
-	Map<String,Integer> dupe = new HashMap<String,Integer>();
+	Map<Integer,Integer> dupe = new HashMap<Integer,Integer>();
 
 	public FindExactDuplicatesTask(int nGramSize,Map<String, Integer> lexicon){
 		this.nGramSize = nGramSize;
@@ -42,16 +47,17 @@ public class FindExactDuplicatesTask implements Runnable {
 				while(reviews.next()){
 					int review_id = reviews.getInt(1);
 					String normText = Tools.normalize(reviews.getString(2));
+					int key = normText.hashCode();
 					
 					if(lexicon != null)
 						Tools.toHashShingles(normText, nGramSize, lexicon);
 					
-					if(dupe.containsKey(normText)){
-						DuplicateSQL.insertExactDuplicateBatch(insertion, dupe.get(normText), review_id);
+					if(dupe.containsKey(key)){
+						DuplicateSQL.insertExactDuplicateBatch(insertion, dupe.get(key), review_id);
 					}
 					else
 					{
-						dupe.put(normText, review_id);
+						dupe.put(key, review_id);
 					}
 					
 					if(count%1000==0){

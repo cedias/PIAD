@@ -6,6 +6,11 @@ import java.sql.SQLException;
 
 import database.sql.ReviewSQL;
 
+/**
+ * Concurrent update reviews
+ * @author charles
+ *
+ */
 public class UpdateReviews {
 
 	int count = 0;

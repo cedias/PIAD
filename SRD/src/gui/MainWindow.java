@@ -1,38 +1,26 @@
 package gui;
 
-import gui.componants.DBConfig;
+
 import gui.componants.DBPanel;
 import gui.componants.GraphPanel;
-import gui.componants.OPConsole;
-import gui.componants.sub.DBStats;
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.io.Console;
-
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import javax.swing.JToggleButton;
-import javax.swing.border.TitledBorder;
 
 
-
-
+/**
+ * main GUI window
+ * @author charles
+ */
 public class MainWindow extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private DBConfig dbConf = new DBConfig();
 
-	private OPConsole console = new OPConsole(); 
 	private JTabbedPane operations = new JTabbedPane(JTabbedPane.TOP);
-	private JPanel dbOperations = new DBPanel(dbConf);
+	private JPanel dbOperations = new DBPanel();
 	private JPanel graphOperations = new GraphPanel();
-
-	private TitledBorder configBorder = new TitledBorder("Configuration"); 
-	private TitledBorder consoleBorder = new TitledBorder("Console"); 
 
 
 	public MainWindow(){
@@ -57,14 +45,8 @@ public class MainWindow extends JFrame {
 	}
 
 	private void addFrames() {
-		this.add(dbConf,BorderLayout.NORTH);
-		dbConf.setBorder(configBorder);
 	
 		this.add(operations,BorderLayout.CENTER);
-		
-
-		this.add(console,BorderLayout.SOUTH);
-		console.setBorder(consoleBorder);
 		
 
 	}

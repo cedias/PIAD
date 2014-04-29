@@ -10,6 +10,11 @@ import java.util.HashSet;
 
 
 import database.DB;
+/**
+ * Uploader using temp files and LOAD DATA LOCAL INFILE
+ * @author charles
+ *
+ */
 public class TextFileUpload implements Uploader {
 	int count=0;
 	PrintWriter writerReviews;
@@ -21,7 +26,6 @@ public class TextFileUpload implements Uploader {
 	StringBuilder productsBuilder = new StringBuilder();
 	StringBuilder usersBuilder = new StringBuilder();
 	private final String fs = "\t";
-	private final String ls = "\n";
 	
 	public TextFileUpload() throws IOException{
 		this.writerReviews = new PrintWriter(new BufferedWriter(new FileWriter("temp/reviews.txt")));

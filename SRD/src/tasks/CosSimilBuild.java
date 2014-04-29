@@ -11,6 +11,11 @@ import tools.Tools;
 import database.DB;
 import database.sql.CosSimSQL;
 
+/**
+ * Populate the cos_simil field in the database, needed for near duplicates
+ * @author charles
+ *
+ */
 public class CosSimilBuild implements Runnable {
 
 	private final String sql = "SELECT  `review_id`,`text` FROM  `reviews` ";

@@ -6,14 +6,34 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Database connection class
+ * @author charles
+ *
+ */
 public class DB {
 
+	/**
+	 * Get a Connection Object
+	 * @return
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
 	public static Connection getConnection() throws SQLException, ClassNotFoundException{
+		DBConfig dbConf = DBConfig.getInstance();
 		Class.forName("com.mysql.jdbc.Driver");
-		Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/amazon", "amazon", "amazon");
+		Connection connection = DriverManager
+				.getConnection("jdbc:mysql://"+dbConf.getUrl()+"/"+dbConf.getDatabase(), dbConf.getUser(),dbConf.getPass());
 		return connection;
 	}
 	
+	/**
+	 * Get a streaming ResultSet from a sql review.
+	 * @param sql
+	 * @param conn
+	 * @return
+	 * @throws SQLException
+	 */
 	public static ResultSet getStreamingResultSet(String sql, Connection conn) throws SQLException{
 		
 		PreparedStatement stat = conn.prepareStatement(
@@ -25,6 +45,13 @@ public class DB {
 		    return stat.executeQuery();
 	}
 	
+	/**
+	 * Get a streaming PreparedStatement from a sql review
+	 * @param sql
+	 * @param conn
+	 * @return
+	 * @throws SQLException
+	 */
 	public static PreparedStatement getStreamingStatement(String sql, Connection conn) throws SQLException{
 		
 		PreparedStatement stat = conn.prepareStatement(

@@ -11,6 +11,13 @@ import java.sql.Timestamp;
  */
 public class ReviewSQL {
 
+	/**
+	 * get insert reviews statement
+	 * @param c
+	 * @return
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public static PreparedStatement getInsertReviewStatement(Connection c) throws ClassNotFoundException, SQLException{
 		/*
 		 * 1:	user_id
@@ -24,7 +31,7 @@ public class ReviewSQL {
 		 * 9:	agreement_score
 		 * 10:	honesty_score
 		 */
-		String sql ="INSERT INTO `amazon`.`reviews` "
+		String sql ="INSERT INTO reviews "
 				+ "(`user_id`, `product_id`, `score`, `time`, `helpfullness`, `nb_helpfullness`, `summary`, `text`) " 
 				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
 
@@ -32,18 +39,37 @@ public class ReviewSQL {
 			return st;
 	}
 
+	/**
+	 * get update near duplicate review statement
+	 * @param c
+	 * @return
+	 * @throws SQLException
+	 */
 	public static PreparedStatement getUpdateNearDuplicateStatement(Connection c) throws SQLException{
 		/*
 		 * 1: near_duplicate_id
 		 * 2: review_id
 		 */
-		String sql = "UPDATE  `amazon`.`reviews` SET  `near_dup_id` = ?, honesty_score = 0 WHERE  `reviews`.`review_id` =?;";
+		String sql = "UPDATE  reviews SET  `near_dup_id` = ?, honesty_score = 0 WHERE  `reviews`.`review_id` =?;";
 		PreparedStatement st = c.prepareStatement(sql);
 		return st;
 	}
 
 
-
+	/**
+	 * Configure insert review statement and add to batch
+	 * @param st
+	 * @param uid
+	 * @param pid
+	 * @param score
+	 * @param time
+	 * @param help
+	 * @param nbHelp
+	 * @param summary
+	 * @param text
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public static void insertReviewBatch(PreparedStatement st, String uid, String pid, float score, String time, int help
 				,int nbHelp, String summary, String text) throws ClassNotFoundException, SQLException{
 
@@ -59,7 +85,13 @@ public class ReviewSQL {
 			st.addBatch();
 	}
 
-
+	/**
+	 * configure near duplicates statement and add to batch
+	 * @param st
+	 * @param reviewId
+	 * @param duplicateId
+	 * @throws SQLException
+	 */
 	public static void addBatchNearDuplicateUpdate(PreparedStatement st, int reviewId, int duplicateId) throws SQLException{
 		st.setInt(1, duplicateId);
 		st.setInt(2, reviewId);

@@ -7,7 +7,11 @@ import java.util.Map;
 import tools.Tools;
 import database.DB;
 
-
+/**
+ * Create the ngram-lexicon
+ * @author charles
+ *
+ */
 public class BuildLexiconTask implements Runnable {
 	
 	private final int nGramSize;

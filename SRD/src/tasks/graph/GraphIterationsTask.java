@@ -18,13 +18,13 @@ public class GraphIterationsTask implements Runnable {
 		
 		for(int i=0; i<nbIter;i++){	
 			
-			//compute trust
-			ComputeTrustinessScoreTask trust = new ComputeTrustinessScoreTask();
-			trust.run();
-			
 			//compute honesty
 			ComputeHonestyScoreTask hon = new ComputeHonestyScoreTask(windowSize, diffNote);
 			hon.run();
+			
+			//compute trust
+			ComputeTrustinessScoreTask trust = new ComputeTrustinessScoreTask();
+			trust.run();
 			
 			//compute reliability
 			ComputeReliabilityScoreTask rel = new ComputeReliabilityScoreTask();
