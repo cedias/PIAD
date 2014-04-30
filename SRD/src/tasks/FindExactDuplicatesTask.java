@@ -60,8 +60,8 @@ public class FindExactDuplicatesTask implements Runnable {
 						dupe.put(key, review_id);
 					}
 					
-					if(count%1000==0){
-						System.out.println(count);
+					if(count%10000==0){
+						System.out.println("Exact: "+count);
 						insertion.executeBatch();
 					}
 						

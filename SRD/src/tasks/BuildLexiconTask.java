@@ -27,14 +27,16 @@ public class BuildLexiconTask implements Runnable {
 	public void run() {
 		
 			try {
-				
+				int cpt=0;
 				Connection stream = DB.getConnection();
 				ResultSet reviews = DB.getStreamingResultSet(sql, stream);
 				
 				while(reviews.next()){
 					String normText = Tools.normalize(reviews.getString(1));
 					Tools.toHashShingles(normText, nGramSize, lexicon);
-						
+					cpt++;
+					if(cpt%10000==0)
+						System.out.println("Lexicon:"+cpt);
 				}
 				
 				stream.close();

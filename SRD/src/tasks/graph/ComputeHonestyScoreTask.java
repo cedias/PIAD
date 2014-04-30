@@ -27,7 +27,7 @@ public class ComputeHonestyScoreTask implements Runnable {
 	}
 
 	public void run() {
-		
+		System.out.println("Computing Honesty");
 		int count=0;
 		int review_id;
 		String product_id;

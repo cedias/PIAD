@@ -22,6 +22,7 @@ public class ComputeReliabilityScoreTask implements Runnable {
 		
 	@Override
 	public void run() {
+		System.out.println("Computing Reliability");
 		Connection stream;
 		Connection upstream;
 		PreparedStatement st;

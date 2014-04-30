@@ -36,7 +36,7 @@ public class CosSimilBuild implements Runnable {
 				Connection stream = DB.getConnection();
 				ResultSet reviewStream = DB.getStreamingResultSet(sql, stream);
 				PreparedStatement st = CosSimSQL.getInsertCosSimilStatement(conn);
-				
+				int cpt=0;
 				
 				while(reviewStream.next()){
 					int reviewId = reviewStream.getInt(1);
@@ -44,6 +44,10 @@ public class CosSimilBuild implements Runnable {
 					
 					double cosSimil = new LettersCount(lexicon, reviewId,nGramSize ,normText).cosSimilIdent();
 					CosSimSQL.insertBatchCosSimil(st, reviewId, cosSimil);
+					
+					cpt++;
+					if(cpt%10000==0)
+						System.out.println("CosSim:"+cpt);
 				}
 				
 				st.executeBatch();
