@@ -17,7 +17,7 @@ public class GraphIterationsTask implements Runnable {
 	public void run() {
 		
 		for(int i=0; i<nbIter;i++){	
-			
+			System.out.println("Iteration "+(i+1)+" on "+nbIter);
 			//compute honesty
 			ComputeHonestyScoreTask hon = new ComputeHonestyScoreTask(windowSize, diffNote);
 			hon.run();

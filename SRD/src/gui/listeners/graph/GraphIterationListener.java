@@ -22,7 +22,7 @@ public class GraphIterationListener implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		/*Init*/
 		GraphInitTask init = new GraphInitTask(gi.getExactDupe(), gi.getNearDupe(), gi.getBursts(),
-				gi.getNGram(), gi.getWindow(), gi.getCosSim(), gi.getMinReviews(), gi.getSigma());
+				gi.getNGram(), gi.getWindow(), gi.getCosSim(), gi.getMinReviews(), gi.getSigma(),gc.getWindowSize(),gc.getDiffScore());
 		
 		init.run();
 		

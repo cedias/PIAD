@@ -19,6 +19,8 @@ CREATE TABLE IF NOT EXISTS reviews
 	INDEX IndCossim (cos_simil_ident),
 	INDEX IndExDup (exact_dup_id),
 	INDEX IndNeDup (near_dup_id),
-	INDEX IndHonest (honesty_score)
+	INDEX IndHonest (honesty_score),
+	INDEX IndTime (time),
+	INDEX IndHelp (helpfullness)
 	)
 	;

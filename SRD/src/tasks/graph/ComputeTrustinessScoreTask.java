@@ -19,6 +19,7 @@ public class ComputeTrustinessScoreTask implements Runnable {
 	
 	@Override
 	public void run() {
+		System.out.println("Computing Trustiness");
 		Connection stream;
 		Connection upstream;
 		PreparedStatement st;

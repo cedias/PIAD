@@ -40,6 +40,7 @@ public class ProductBurstTask implements Runnable {
 		Connection conn,conn2;
 		
 		try {
+			System.out.println("Looking for Bursts");
 			conn = DB.getConnection();
 			conn2 = DB.getConnection();
 			PreparedStatement st = DB.getStreamingStatement(sql_suspects, conn);

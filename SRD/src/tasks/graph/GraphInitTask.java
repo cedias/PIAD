@@ -2,6 +2,8 @@ package tasks.graph;
 
 import java.util.HashMap;
 
+import database.sql.HonestySQL;
+
 import tasks.BuildLexiconTask;
 import tasks.CosSimilBuild;
 import tasks.FindExactDuplicatesTask;
@@ -23,11 +25,13 @@ public class GraphInitTask implements Runnable {
 	final double cosSimil;
 	final int minReviews;
 	final int eps;
+	final int windowSize;
+	final double diffScore;
 	
 
 	public GraphInitTask(boolean exactDupes, boolean nearDupes,
 			boolean reviewBursts, int nGramSize, int windowND, double cosSimil,
-			int minReviews, int eps) {
+			int minReviews, int eps,int windowSize, double diffScore) {
 		super();
 		this.exactDupes = exactDupes;
 		this.nearDupes = nearDupes;
@@ -37,6 +41,8 @@ public class GraphInitTask implements Runnable {
 		this.cosSimil = cosSimil;
 		this.minReviews = minReviews;
 		this.eps = eps;
+		this.windowSize = windowSize;
+		this.diffScore = diffScore;
 	}
 
 
@@ -44,25 +50,22 @@ public class GraphInitTask implements Runnable {
 	public void run() {
 		long start = System.currentTimeMillis();
 		
-		System.out.println("Exact");
+		System.out.println("Clearing previous scores");
+		new ResetScoresTask().run();
+		
+		ComputeHonestyScoreTask hon = new ComputeHonestyScoreTask(windowSize, diffScore);
 		
 		if(exactDupes)
 			new Thread(new FindExactDuplicatesTask()).start();
 		
-		System.out.println("Burst");
 		if(reviewBursts)
 			new Thread(new ProductBurstTask(minReviews,eps)).start();
-		
-		System.out.println("ND");
+		;
 		if(nearDupes){
 			HashMap<String, Integer> lexicon = new HashMap<String,Integer>(100000);
-			System.out.println("LEX");
 			new BuildLexiconTask(nGramSize, lexicon).run();
-			System.out.println("cossim");
 			new CosSimilBuild(nGramSize, lexicon).run();
-			System.out.println("D");
 			new FindNearDuplicatesTask(windowND, cosSimil, nGramSize, lexicon).run();
-			
 		}
 		
 		//compute trust

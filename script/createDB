@@ -35,7 +35,9 @@ TABLES['reviews'] = (
 	INDEX IndCossim (cos_simil_ident),
 	INDEX IndExDup (exact_dup_id),
 	INDEX IndNeDup (near_dup_id),
-	INDEX IndHonest (honesty_score)
+	INDEX IndHonest (honesty_score),
+	INDEX IndTime (time),
+	INDEX IndHelp (helpfullness)
 	)
 	;
 	'''
@@ -49,7 +51,8 @@ TABLES['users'] = (
 	    username VARCHAR(50),
 	    trust_score DOUBLE DEFAULT 1.0 ,
 	    PRIMARY KEY(user_id),
-	    INDEX IndTrust (trust_score)
+	    INDEX IndTrust (trust_score),
+	    INDEX IndUname (username)
 	 );
 	'''
 )
