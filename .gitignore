@@ -3,13 +3,9 @@
 *.jar
 *.war
 *.ear
-SRD/data/*
 SRD/bin/*
-SRD/output/*
-SRD/temp/*
 .project
 .classpath
 .settings
 .metadata
-/SRD/nbproject/private/
 /SRD/build/
