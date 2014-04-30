@@ -106,8 +106,8 @@ public class FindNearDuplicatesTask implements Runnable {
 			th3.join();
 			th4.join();
 			
-			if(i%100==0)
-				System.out.println(i);
+			if(i%1000==0)
+				System.out.println("Near:"+ i);
 		}
 		up.flushBatch();
 		conn.close();
