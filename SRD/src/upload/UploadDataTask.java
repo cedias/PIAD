@@ -2,7 +2,13 @@ package upload;
 
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Scanner;
+
+import tools.Tools;
+
+import com.sun.org.apache.bcel.internal.generic.CPInstruction;
 
 /**
  * Upload Task Class
@@ -11,6 +17,8 @@ public class UploadDataTask implements Runnable {
 
 	String filename;
 	Uploader uploader;
+	private HashSet<Integer> dupeSet = new HashSet<Integer>(1000000); //check if review already exists
+	private HashMap<Integer,String> titleDupe = new HashMap<Integer,String>(200000);
 	
 
 	public UploadDataTask(String filename,Uploader uploader) {
@@ -71,11 +79,50 @@ public class UploadDataTask implements Runnable {
 				 *data[9]: Review text
 				 */
 				
+				/* Test for duplicity in review set */
+				if(!skip){
+					/*title/pid dupe*/
+					int code = normalizeTitle(data[1]).hashCode(); //title to int
+					
+					if(code != 0 ){
+						/*normalized title isn't "" */
+					
+						if(!titleDupe.containsKey(code)){
+							//add new title to hashmap
+							titleDupe.put(code, data[0]);
+						}
+						else
+						{
+							if(!data[0].equals(titleDupe.get(code)))
+								data[0] = titleDupe.get(code);
+							
+						}
+					
+						/* dupe user/pid/reviewtext */
+						 code =  data[0].concat(data[3]).concat(data[9]).hashCode();
+						
+						if(dupeSet.add(code) == false){
+							skip = true;
+							skipCpt++;
+						}
+					}
+					
+					else{
+						/*Code is 0, title is ""*/
+						skip = true;
+						skipCpt++;
+					}
+					
+				}
+				
+				
+				
+				
 				if(!skip)
 					 nb = uploader.upload(data);
 				
 				if(nb%10000 ==0 && nb!=0)
-					System.out.println(nb); //TODO remove
+					System.out.println(nb); 
 				
 
 				if(sc.hasNextLine()){
@@ -97,5 +144,20 @@ public class UploadDataTask implements Runnable {
 			e.printStackTrace();
 		}
 
+	}
+	/**
+	 * Sometimes title are the same with different case or added [text] or (text), we'll delete those. 
+	 * @param title
+	 * @return
+	 */
+	private String normalizeTitle(String title)
+	{
+		
+		return title.replaceAll("(\\[.*\\]|\\(.*\\))", "") 
+				.toLowerCase()
+				.replaceAll("[\\W]", " ")
+				.replaceAll("\\s+", " ")
+				.trim();
+	
 	}
 }
