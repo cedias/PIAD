@@ -3,6 +3,7 @@ package upload;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.HashSet;
 
 import database.DB;
 import database.sql.ProductSQL;
@@ -60,7 +61,6 @@ public class BatchUpload implements Uploader {
 		String[] help;
 		
 		help = data[5].split("/");
-		
 		
 		ReviewSQL.insertReviewBatch(
 				stReviews,

@@ -11,7 +11,7 @@ import java.util.Map;
 public class Tools {
 
 	/**
-	 * Normalize a text (remove non-word character and n-spaces
+	 * Normalize a text (remove non-word character and n-spaces, trim and to lowercase)
 	 * @param text
 	 * @return
 	 */
