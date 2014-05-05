@@ -24,8 +24,17 @@ public class FindNearDuplicatesTask implements Runnable {
 	private final double sim;
 	private final int nGramSize;
 	HashMap<String,Integer> lexicon;
-
-
+	
+	private ArrayList<LettersCount> buffer= new ArrayList<LettersCount>();
+	private int start;
+	
+	/**
+	 * Task builder
+	 * @param win
+	 * @param sim
+	 * @param nGramSize
+	 * @param lexicon
+	 */
 	public FindNearDuplicatesTask(int win, double sim, int nGramSize, HashMap<String,Integer> lexicon) {
 		super();
 		this.win = win;
@@ -38,22 +47,18 @@ public class FindNearDuplicatesTask implements Runnable {
 	public void run() {
 		try{
 			System.out.println("-----Start ND--------");
-			final String sql = "SELECT review_id, text FROM `reviews` WHERE exact_dup_id IS NULL ORDER BY cos_simil_ident DESC";
 			
-			Connection stream = DB.getConnection();
-			ResultSet reviewStream = DB.getStreamingResultSet(sql, stream);
-			ArrayList<LettersCount> buffer= new ArrayList<LettersCount>();
 			
-			while(fillBuffer(MAXLC,reviewStream,buffer)){
+			while(fillBuffer()){
 				//MAXLC in vectors
 				System.out.println("---LookingForDupes---");
-				findNearDuplicates(win,buffer);
+				findNearDuplicates();
 				
 				System.out.println("---CopyingBuffer---");
 				buffer = new ArrayList<LettersCount>(buffer.subList(buffer.size()-win, buffer.size()-1));	
 			}
 			
-			findNearDuplicates(0,buffer);
+			findNearDuplicates();
 
 		} catch(Exception e){
 			System.out.println("EXCEPTION find near duplicates task:");
@@ -62,8 +67,11 @@ public class FindNearDuplicatesTask implements Runnable {
 		}
 	}
 
-	private boolean fillBuffer(int max,ResultSet reviewStream, ArrayList<LettersCount> buffer) throws SQLException{
+	private boolean fillBuffer() throws SQLException, ClassNotFoundException{
 		System.out.println("---Filling Buffer---");
+		final String sql = "SELECT review_id, text FROM `reviews` WHERE exact_dup_id IS NULL ORDER BY cos_simil_ident DESC LIMIT "+start+ ", "+(start+MAXLC);
+		Connection stream = DB.getConnection();
+		ResultSet reviewStream = DB.getStreamingResultSet(sql, stream);
 		
 		while(reviewStream.next()){
 			
@@ -73,14 +81,13 @@ public class FindNearDuplicatesTask implements Runnable {
 						nGramSize,
 						Tools.normalize(reviewStream.getString(2))
 					));
-			
-			if(buffer.size()>=max)
-				return true;
 		}
+		reviewStream.close();
+		stream.close();
 		
 		return false;
 	}
-	private void findNearDuplicates(int stop,ArrayList<LettersCount> buffer) throws ClassNotFoundException, SQLException, InterruptedException {
+	private void findNearDuplicates() throws ClassNotFoundException, SQLException, InterruptedException {
 		System.out.println("---LookingForDupes---");
 		NearDupesMemThread th1;
 		NearDupesMemThread th2;
@@ -90,7 +97,7 @@ public class FindNearDuplicatesTask implements Runnable {
 		UpdateReviews up = new UpdateReviews(conn);
 		
 		
-		for(int i=0;i<buffer.size()-stop;i=i+4){
+		for(int i=0;i<buffer.size()-win;i=i+4){
 			
 			th1 = new NearDupesMemThread(buffer, i, up, win, sim);
 			th1.start();

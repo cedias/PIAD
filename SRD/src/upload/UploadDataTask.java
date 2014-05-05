@@ -98,8 +98,8 @@ public class UploadDataTask implements Runnable {
 							
 						}
 					
-						/* dupe user/pid/reviewtext */
-						 code =  data[0].concat(data[3]).concat(data[9]).hashCode();
+						/* dupe user/reviewtext */
+						 code =  data[0].concat(data[9]).hashCode();
 						
 						if(dupeSet.add(code) == false){
 							skip = true;
