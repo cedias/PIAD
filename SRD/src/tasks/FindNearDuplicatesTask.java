@@ -50,7 +50,6 @@ public class FindNearDuplicatesTask implements Runnable {
 			
 			
 			while(fillBuffer()){
-				//MAXLC in vectors
 				System.out.println("---LookingForDupes---");
 				findNearDuplicates();
 				
@@ -69,10 +68,10 @@ public class FindNearDuplicatesTask implements Runnable {
 
 	private boolean fillBuffer() throws SQLException, ClassNotFoundException{
 		System.out.println("---Filling Buffer---");
-		final String sql = "SELECT review_id, text FROM `reviews` WHERE exact_dup_id IS NULL ORDER BY cos_simil_ident DESC LIMIT "+start+ ", "+(start+MAXLC);
+		final String sql = "SELECT review_id, text FROM `reviews` WHERE exact_dup_id IS NULL ORDER BY cos_simil_ident DESC LIMIT "+start+ ", "+MAXLC;
 		Connection stream = DB.getConnection();
 		ResultSet reviewStream = DB.getStreamingResultSet(sql, stream);
-		
+		int i=0;
 		while(reviewStream.next()){
 			
 			buffer.add(new LettersCount(
@@ -81,11 +80,16 @@ public class FindNearDuplicatesTask implements Runnable {
 						nGramSize,
 						Tools.normalize(reviewStream.getString(2))
 					));
+			i++;
 		}
+		//no more
+		if(i==0)
+			return false;
+		start+=MAXLC;
 		reviewStream.close();
 		stream.close();
 		
-		return false;
+		return true;
 	}
 	private void findNearDuplicates() throws ClassNotFoundException, SQLException, InterruptedException {
 		System.out.println("---LookingForDupes---");
